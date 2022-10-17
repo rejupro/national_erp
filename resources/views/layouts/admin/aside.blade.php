@@ -364,9 +364,7 @@
             </span>
             </a>
             <ul class="treeview-menu" @if(isset($mhead) && $mhead=='raw_material') style="display: block;" @endif>
-               @if($category_list == 'category_list' || Auth::User()->status == 007)
-               <li><a href="{{route('category-list')}}" @if(isset($phead) && $phead=='raw_materiallist') class="active" @endif><i class="fa fa-caret-right"></i> @if ( Auth::User()->language == 1 ) রো ম্যাটেরিয়াল লিস্ট @else Raw Material List @endif</a></li>
-               @endif
+               <li><a href="{{route('rawmaterial-list')}}" @if(isset($phead) && $phead=='raw_materiallist') class="active" @endif><i class="fa fa-caret-right"></i> @if ( Auth::User()->language == 1 ) রো ম্যাটেরিয়াল লিস্ট @else Raw Material List @endif</a></li>
             </ul>
          </li>
 

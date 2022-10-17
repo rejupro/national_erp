@@ -23,7 +23,12 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 // Raw Material
-Route::get('/rawmaterial-list','Raw\RawMaterial@index')->name('rawmaterial-list');
+Route::get('/rawmaterial-list','Raw\RawMaterialController@index')->name('rawmaterial-list');
+Route::get('/rawmaterial-add','Raw\RawMaterialController@addraw')->name('rawmaterial-add');
+Route::post('/rawmaterial-store','Raw\RawMaterialController@rawstore')->name('rawstore');
+Route::get('/rawmaterial-edit/{id}','Raw\RawMaterialController@materialedit')->name('materialedit');
+Route::post('/rawmaterial-update/{id}','Raw\RawMaterialController@materialupdate')->name('materialupdate');
+Route::get('/rawmaterial-delete/{id}','Raw\RawMaterialController@materialdelete')->name('materialdelete');
 
 
 
