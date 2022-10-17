@@ -1,0 +1,349 @@
+@extends("layouts/admin/main")
+@section("content")
+@php
+$mhead='requisition';
+$phead='return_requi';
+@endphp
+<head>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+
+<section class="content-header">
+    <h1>Requisition Return</h1>
+    <ol class="breadcrumb">
+       <li><a href="home.php"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+       <li><a href="mas_brandcreate.php">Requisition</a></li>
+       <li class=""><a href="#">Requisition Return</a></li>
+    </ol>
+ </section>
+<!-- Main content -->
+<section class="content">
+   <div class="row">
+    @if($requisitionlist)
+     <div class="col-md-12">
+        <div class="box box-solid">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Add New Requisition Return</h3>
+                </div>
+                <div class="box-body">
+                    @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
+        
+                    <form action="{{ route('return-requisition') }}" method="POST">
+                        @csrf
+                        <div class="col-md-12 popup_details_div">
+                            <div class="col-md-10">
+                                <div class="col-md-12">
+                                    
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                    <label>Requisition Code</label>
+                                                    <select class="form-control" name="requisition_id" id="requisition_id">
+                                                        <option value="">-Select-</option>
+                                                        @foreach ($requisitionlist as $data)
+                                                            <option value="{{$data->code}}">{{$data->code}}</option>
+                                                        @endforeach
+
+                                                    </select>
+                                            </div>
+                                        </div>  
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4 text-right" >
+                                            <input type="submit" name="save_category" id="submit" class="btn btn-flat bg-purple btn-sm " value="SUBMIT"/> 
+                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+        </div>
+     </div>
+
+       @endif
+       @php $i=0; @endphp
+       @if($details)
+        <div class="col-md-12">
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                <h3 class="box-title">Edit Requisition</h3>
+                </div>
+                <div class="box-body">
+                    @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
+                <form id="dynamic_form" action="{{route('requisitionreturn-store-route')}}"  enctype="multipart/form-data" method="POST" accept-charset="utf-8">
+                    @csrf
+                  
+                    <div class="col-md-12 popup_details_div">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10">
+                            <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Project</label>
+                                        <select class="form-control" name="project_id" id="project_id" readonly>
+                                        <option value="">-Select-</option>
+                                        @foreach ($projects as $data)
+                                        <option value="{{$data->id}}" @php echo ($requisition->project_id == $data->id ? "selected" : ""); @endphp>{{$data->project_id}}</option>
+                                            @endforeach
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Return R.V.No</label>
+                                        <input type="text" name="code" maxlength="15" value="{{$rcode}}" id="code" class="form-control" placeholder="e.g. ABA/SU/001" readonly/>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Requisition V.No</label>
+                                        <input type="text" name="requisition_id" maxlength="15" value="{{$requisition->code}}" id="requisition_id" class="form-control" placeholder="e.g. ABA/SU/001" readonly/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <span class="input-group-addon">Staff Name</span>
+                                        <select class="form-control" name="stf_id" id="stf_id" readonly>
+                                            <option value="">-Select-</option>
+                                            @foreach ($employees as $data)
+                                                <option value="{{$data->id}}" @php echo ($requisition->stf_id == $data->id ? "selected" : ""); @endphp>{{$data->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Designation</label>
+                                        <input type="text" name="dsgn_id" maxlength="45" value="{{$requisition->dsgn_id}}" id="dsgn_id" class="form-control" placeholder="e.g. +88016161xxxxx70" readonly/>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Contact Number</label>
+                                        <input type="text" name="cnumber" maxlength="18" value="{{$requisition->cnumber}}" id="cnumber" class="form-control" placeholder="e.g. +88016161xxxxx70" readonly/>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Contact Email</label>
+                                        <input type="text" name="cemail" maxlength="45" value="{{$requisition->cemail}}" id="cemail" class="form-control" placeholder="e.g. info@axesgl.com" readonly/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table class="table table-bordered table-striped" id="user_table">
+                                        <thead>
+                                        <tr>
+                                            <th>Expense/Product Name</th>
+                                            <th>Unit</th>
+                                            <th>Net Price</th>
+                                            <th>Quantity</th>
+                                            <th>Total Price</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{-- @dd($details->toArray()) --}}
+                                            @foreach ($details as $d => $detail)
+                                                @php $i=$i+1; @endphp
+                                            <tr>
+                                            
+                                                <input type="hidden" name="detail_id[]" value='{{ $detail->id }}' />
+                                                
+                                                <td>
+                                                <input type="text" name="requisition_item[]" id="requisition_item{{$i}}" value="{{$detail->requisition_item}}" class="form-control requisition_item" readonly/>
+                                                </td>
+                                                <td> <select name="unit_id[]" id="unit_id{{$i}}" class="form-control"><option selected value="" readonly>Choose Please.....</option>@foreach ($unit as $data)<option value="{{$data->id}}" @if($data->id == $detail->unit_id) selected @endif>{{$data->name}}</option>@endforeach</select></td>
+                                                <td><input type="text" name="nprice[]" id="nprice{{$i}}" value="{{$detail->nprice}}" class="form-control nprice" /></td>
+                                                <td><input type="text" name="qty[]" id="qty{{$i}}" value="{{$detail->qty}}"  onblur="net_price_count({{$i}})" class="form-control qty" /></td>
+                                                <td><input type="text" name="price[]" id="price{{$i}}" value="{{$detail->price}}" onclick="calculationAll({{$i}})"  class="form-control price" /></td>
+                                                @if($d != 0)
+                                                    <td><button type="button" name="remove" id="remove{{$i}}" class="btn btn-danger remove" onclick="remove_price({{$i}})">Remove</button></td>
+                                                @else
+                                                    <td><button type="button" name="add" id="add" class="btn btn-success">Add</button></td>
+                                                @endif
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                        <input type="hidden" name="count" id="count" value="{{ $i }}">
+                                        <tfoot>
+                                        <td colspan="3">Total</td>
+                                        <td colspan="1"><input type="text" name="total" maxlength="18" value="{{$requisition->grand_total}}" id="total" class="form-control" /></td>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-13">
+                                    <div class="form-group">
+                                        <label>Note</label>
+                                        <textarea class="form-control" name="address" id="address" value="" maxlength="200" rows="4" placeholder="Site Numbers, RMN Core, Office Address">{{$requisition->address}}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="col-md-1"></div>
+                    </div>
+                    <div class="clearfix" ></div>
+                    <div class="col-md-12 nopadding widgets_area"></div>
+                    <div class="row"style="margin-top: 15px" >
+                        <div class="col-md-8 "></div>
+                        <div class="col-md-4 text-right" >
+                            {{-- <input type="submit" name="save" id="save" class="btn btn-flat bg-purple btn-sm" value="Save"/> <a href="{{route('requisition-list-route')}}" class="btn btn-flat bg-gray  ">Close</a> --}}
+                            <input type="submit" name="save" id="submit" class="btn btn-flat bg-purple btn-sm " value="Save"><a href="{{route('requisition-list-route')}}" class="btn btn-flat bg-gray  ">Close</a>
+                        </div>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+      @endif
+   </div>
+
+
+  
+   <script>
+      var number= $('#count').val();
+      $(document).ready(function(){
+
+       var count = @php echo $i; @endphp + 1;
+       dynamic_field(count);
+
+       function dynamic_field(number)
+       {
+
+        html = '<tr>';
+              html += '<td><input type="text" name="requisition_item[]" id="requisition_item'+count+'" class="form-control requisition_item"/></td>';
+               html += '<td> <select name="unit_id[]" id="unit_id'+count+'" class="form-control"><option value="" selected>Choose Please.....</option>@foreach ($unit as $data)<option value="{{$data->id}}">{{$data->name}}</option>@endforeach</select></td>';
+               html += '<td><input type="text" name="nprice[]" id="nprice'+count+'" class="form-control nprice"/></td>';
+               html += '<td><input type="text" name="qty[]" id="qty'+count+'" onblur="net_price_count('+count+')" class="form-control qty"/></td>';
+               html += '<td><input type="text" name="price[]" id="price'+count+'" class="form-control price" onclick="calculationAll('+count+')" /></td>';
+              if(number > 1)
+              {
+                  html += '<td><button type="button" name="remove" id="remove'+count+'" class="btn btn-danger remove" onclick="remove_price('+count+')">Remove</button></td></tr>';
+                  $('tbody').append(html);
+              }
+              else
+              {
+                  html += '<td><button type="button" name="add" id="add" class="btn btn-success">Add</button></td></tr>';
+                  $('tbody').html(html);
+              }
+       }
+
+       $(document).on('click', '#add', function(){
+        count++;
+        dynamic_field(count);
+       });
+
+       $(document).on('click', '.remove', function(){
+        count--;
+        $(this).closest("tr").remove();
+       });
+
+      });
+   </script>
+    <script>
+        function select_employee_phone(){
+            var emp_id = $('#stf_id').val();
+            $.ajax({
+                type:'get',
+                url:'{{ route('select_employee_phone') }}',
+                data:{'id':emp_id},
+                success:function(result){
+                    $('#cnumber').val(result);
+                    return false;
+                },
+                error:function(){
+
+                },
+            });
+        }
+    </script>
+    <script>
+       function net_price_count($id){
+          var set_id = $id;
+          var qty = $('#qty'+set_id+"").val();
+          var nprice = $('#nprice'+set_id+"").val();
+          var price = parseInt(qty) * parseInt(nprice);
+          $('#price'+set_id+"").val(price);
+
+       }
+        function calculationAll($id){
+            var initial_total = 0;
+            var i = $id;
+            alert(i);
+            var j = 1;
+            for(j; j<=i ; j++) {
+                var amount = $('#price'+j+"").val();
+                var set_initial_total = parseInt(initial_total) + parseInt(amount);
+                var initial_total = set_initial_total;
+                $('#total').val(set_initial_total);
+            }
+        }
+        function remove_price($id) {
+            var i = $id;
+            var initial_total = $('#total').val();
+            var price = $('#price'+i+"").val();
+            if(price>0) {
+                var set_initial_total = parseInt(initial_total) - parseInt(price);
+                $('#total').val(set_initial_total);
+            }else{
+                $('#total').val(0);
+            }
+        }
+
+    </script>
+</section>
+
+<script>
+
+   $('#stf_id').change(function(){
+       var id = $(this).val();
+       var url = '{{ route("requisitiongetDetails", ":id") }}';
+       url = url.replace(':id', id);
+   
+       $.ajax({
+           url: url,
+           type: 'get',
+           dataType: 'json',
+           success: function(response){
+               if(response != null){
+                   $('#dsgn_id').val(response.designation.desg_name);
+                   $('#cnumber').val(response.mobile);
+                   $('#cemail').val(response.email);
+               }
+           }
+       });
+   });
+   
+   
+   </script>
+<!-- /.main content -->
+@endsection

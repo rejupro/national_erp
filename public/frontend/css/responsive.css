@@ -1,0 +1,122 @@
+@media only screen and (min-device-width : 100px) and (max-device-width : 762px) {
+    .axtitle,.footright,.quickslide,.welmsg{
+        display: none !important;
+    }
+    .main-sidebar {
+        padding-top: 150px;
+    }
+    .axtitle_mobile{
+        display: block;
+        font-size: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    .axtitle_mobile .span1{
+        width: 100%;
+        float: left;
+    }
+    .axtitle_mobile .span2{
+        font-size: 9px;
+        color:#fff;
+        width: 100%;
+        float: left;
+    }
+    .axtitle_mobile img{
+        width: 40px;
+    }
+    .main-header .logo{
+        min-height: 105px;
+    }
+    .main-sidebar{
+        padding-top: 155px;
+    }
+    .main-header .navbar-custom-menu a{
+        color: #fff;
+    }
+    .main-header .dropdown-menu a{
+        color: #444;
+    }
+    .main-header .navbar{
+        min-height:50px;
+        height: 50px !important;
+    }
+    .main-header .sidebar-toggle{
+        padding: 15px 5px;
+            font-size: 19px;
+    }
+    .main-header .logo{
+        padding-top: 12px;
+    }
+    .modal-dialog {
+
+        margin: auto;
+        margin-top: 15px;
+        margin-bottom: 10px;
+    }
+
+    #baggage_modal .modal-dialog{
+        width: 99%;
+
+    }
+    .holiday_booking .timeline-item{
+        margin-left: 15px !important;
+        padding-bottom: 5px !important;
+        padding-top: 5px !important;
+        margin-right: 15px !important;
+        margin-bottom: 15px !important;
+    }
+    .holiday_booking .actions{
+        margin-bottom: 3px;
+    }
+    .holiday_modal .modal-dialog,
+    #modal-default .modal-dialog,.common_modal .modal-dialog{
+        width: 100%;
+        margin-top: 0px;
+        margin-bottom: 0px; 
+    }
+    .holiday_form_wrap{
+        padding: 5px;
+    }
+    .holiday_nav .col-md-12{
+        padding-left: 5px;padding-right: 12px;height: auto
+    }
+
+
+}
+@media only screen and (min-device-width :763px) and (max-device-width : 1200px) {
+    .axtitle{
+        width: 215px;
+        padding-top: 14px;
+        padding-left: 12px;
+        font-size: 11px;
+    }
+    .welmsg{
+        padding: 16px 0px 4px 4px;
+        width: 145px;
+    }
+    .axtitle{
+        max-width: 200px;
+    }
+    .main-header .navbar-custom-menu a{
+        color: #fff;
+    }
+    .main-header .dropdown-menu a{
+        color: #444;
+    }
+    .holiday_modal .modal-dialog,.common_modal .modal-dialog{
+        width: 95%;
+
+    }
+}
+@media only screen and (min-device-width :763px) and (max-device-width : 950px) {
+    .axtitle{
+        display: none;
+    }
+}
+
+@media only screen and (min-device-width : 100px) and (max-device-width : 400px) {
+    .popup-box{
+            width: 100%;
+            right: 0px; 
+    }
+}
