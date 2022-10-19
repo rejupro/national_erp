@@ -75,23 +75,8 @@
                                 <th class="text-center" width="25px"><a class="empty" style="cursor: pointer;"><i class="fa fa-trash"></i></a></th>    
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Product Name Will be Here</td>
-                                <td>
-                                    <select class="form-control">
-                                        <option value="ton">Ton</option>
-                                        <option value="kg">Kg</option>
-                                        <option value="litre">Litre</option>
-                                        <option value="mililitre">Mililitre</option>
-                                    </select>
-                                </td>
-                                <td><input type="number" class="form-control" value="0"></td>
-                                <td class="text-center"><a href="#" onclick="remove_from_cart( 163 )" class="remove">
-                                                    <span style="cursor: pointer;" class="fa fa-times"></span>
-                                                </a></td>
-                            </tr>
+                        <tbody id="cartData">
+                            
                         </tbody>
                     </table>
                     </div>
@@ -101,8 +86,11 @@
 	</section>
 
 	 <!-- /.main content -->
-
+    <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
     <script>
+        allCartData();
+
+        // Add to Cart
         function catmethod(id){
             var cpostid = id;
             var url = "{{ route('rawtocart', ":id") }}";
@@ -111,16 +99,69 @@
                 type: 'GET',
                 url: url,
                 success:function(response){
-                    
                     if(response.message_error){
                         toastr.error(response.message_error);
                     }else{
                         toastr.success(response.message);
                     }
+                    allCartData();
                 }
             });
-            
         }
+
+        // Show Cart
+        function allCartData(){
+            $.ajax({
+                type: 'GET',
+                url: "{{route('rawcartdata')}}",
+                dataType: 'json',
+                success:function(response){
+                    console.log(response);
+                    var allData = "";
+                    var i = 1;
+                    $.each(response.data, function(key, value){
+                        allData += `<tr>
+                                        <td>${ i++ }</td>
+                                        <td>${value.material_name}</td>
+                                        <td>
+                                            <select class="form-control">
+                                                <option value="ton">Ton</option>
+                                                <option value="kg">Kg</option>
+                                                <option value="litre">Litre</option>
+                                                <option value="mililitre">Mililitre</option>
+                                            </select>
+                                        </td>
+                                        <td><input type="number" class="form-control" value="${value.quantity}" min="1"></td>
+                                        <td class="text-center"><a href="#" onclick="remove_from_cart(${value.id})" class="remove">
+                                                            <span style="cursor: pointer;" class="fa fa-times"></span>
+                                                        </a></td>
+                                    </tr>`
+                    });
+                    $('tbody#cartData').html(allData);
+                }
+            })
+        }
+
+
+        // Remove Data
+        function remove_from_cart(id){
+            var cpostid = id;
+            var url = "{{ route('rawcartremove', ":id") }}";
+            url = url.replace(':id', cpostid);
+            $.ajax({
+                type: 'GET',
+                url: url,
+                success:function(response){
+                    toastr.success(response.message);
+                    allCartData();
+                }
+            });
+        }
+
+
+
+
+
     </script>
 
 @endsection

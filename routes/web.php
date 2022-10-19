@@ -32,6 +32,8 @@ Route::get('/rawmaterial-delete/{id}','Raw\RawMaterialController@materialdelete'
 // Raw Material Purchase
 Route::get('/rawmaterial-purchase','Raw\MaterialPurchaseController@purchase')->name('rawmaterial-purchase');
 Route::get('/rawtocart/{id}','Raw\MaterialPurchaseController@rawtocart')->name('rawtocart');
+Route::get('/rawcartdata','Raw\MaterialPurchaseController@rawcartdata')->name('rawcartdata');
+Route::get('/rawcartremove/{id}','Raw\MaterialPurchaseController@rawcartremove')->name('rawcartremove');
 
 
 
