@@ -65,20 +65,26 @@
 					<h3 class="box-title">@if ( Auth::User()->language == 1 ) কার্ট লিস্ট @else Cart List @endif</h3>
 					</div>
 					<div class="box-body">
-                    <table class="table table-bordered table-striped" style="margin-bottom: 0;">
-                        <thead>
-                            <tr>
-                                <th width="30px">@if ( Auth::User()->language == 1 ) সিরিয়াল @else SN @endif</th>
-                                <th width="150px">@if ( Auth::User()->language == 1 ) আইটেম নেম @else Item Name @endif</th>
-                                <th width="60px">@if ( Auth::User()->language == 1 ) কোয়ানটিটি টাইপ @else Qty Type @endif</th>
-                                <th width="70px">@if ( Auth::User()->language == 1 ) কোয়ানটিটি @else Quantity @endif</th>
-                                <th class="text-center" width="25px"><a class="empty" style="cursor: pointer;"><i class="fa fa-trash"></i></a></th>    
-                            </tr>
-                        </thead>
-                        <tbody id="cartData">
-                            
-                        </tbody>
-                    </table>
+                        
+                        <table class="table table-bordered table-striped" style="margin-bottom: 0;">
+                            <thead>
+                                <tr style="display:none"><input type="hidden" name="count" id="count" value=""></tr>
+                                <tr>
+                                    <th width="30px">@if ( Auth::User()->language == 1 ) সিরিয়াল @else SN @endif</th>
+                                    <th width="150px">@if ( Auth::User()->language == 1 ) আইটেম নেম @else Item Name @endif</th>
+                                    <th width="60px">@if ( Auth::User()->language == 1 ) কোয়ানটিটি টাইপ @else Qty Type @endif</th>
+                                    <th width="70px">@if ( Auth::User()->language == 1 ) কোয়ানটিটি @else Quantity @endif</th>
+                                    <th class="text-center" width="25px"><a class="empty" style="cursor: pointer;"><i class="fa fa-trash"></i></a></th>    
+                                </tr>
+                            </thead>
+                            <tbody id="cartData">
+                                
+                            </tbody>
+                        </table>
+                        <div class="purchase_checkout text-center d-none" style="margin-top: 15px">
+                            <button type="submit" id="submit_purchase" class="btn btn-flat bg-purple" onClick="insertData()">Submit Purchase </button>
+                        </div>
+                        
                     </div>
 				</div>
 			</div>
@@ -88,7 +94,44 @@
 	 <!-- /.main content -->
     <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
     <script>
+
         allCartData();
+        $('#submit_purchase').hide();
+
+
+        function insertData(){
+
+            var material_id = $('#material_id').val();
+            var qty_type = $('#qty_type').val();
+            var quantity = $('#quantity').val();
+
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    material_id:material_id, qty_type:qty_type, quantity:quantity
+                },
+                url: "{{route('rawmaterial_purchasestore')}}",
+                success:function(response){
+                    if(response.qty_error){
+                        toastr.error(response.qty_error);
+                    }else{
+                        toastr.success(response.message);
+                        allCartData();
+                    }
+                    
+                },
+                error:function(error){
+                    if(error.responseJSON.errors.qty_type){
+                        toastr.error(error.responseJSON.errors.qty_type[0]);
+                    }
+                    if(error.responseJSON.errors.quantity[0]){
+                        toastr.error(error.responseJSON.errors.quantity[0]);
+                    }
+                    
+                }
+            });
+        }
 
         // Add to Cart
         function catmethod(id){
@@ -116,22 +159,28 @@
                 url: "{{route('rawcartdata')}}",
                 dataType: 'json',
                 success:function(response){
-                    console.log(response);
+                    $('#count').val(response.count);
+                    if(response.count > 0){
+                        $('#submit_purchase').show();
+                    }
                     var allData = "";
                     var i = 1;
                     $.each(response.data, function(key, value){
                         allData += `<tr>
+
                                         <td>${ i++ }</td>
-                                        <td>${value.material_name}</td>
                                         <td>
-                                            <select class="form-control">
+                                            <input type="hidden" value="${value.material_id}" name="material_id" id="material_id" >
+                                            ${value.material_name}
+                                        </td>
+                                        <td>
+                                            <select class="form-control" id="qty_type">
+                                                <option value="" selected="">Select Type</option>
                                                 <option value="ton">Ton</option>
-                                                <option value="kg">Kg</option>
                                                 <option value="litre">Litre</option>
-                                                <option value="mililitre">Mililitre</option>
                                             </select>
                                         </td>
-                                        <td><input type="number" class="form-control" value="${value.quantity}" min="1"></td>
+                                        <td><input type="number" class="form-control" id="quantity" value="${value.quantity}" min="1"></td>
                                         <td class="text-center"><a href="#" onclick="remove_from_cart(${value.id})" class="remove">
                                                             <span style="cursor: pointer;" class="fa fa-times"></span>
                                                         </a></td>

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Raw;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Rawmaterial;
+use App\RawMaterialcart;
+use App\RawmaterialStock;
 use File;
 
 class RawMaterialController extends Controller
@@ -101,16 +103,23 @@ class RawMaterialController extends Controller
     }
     // Data Delete
     public function materialdelete($id){
-        $dbtable = RawMaterial::findOrFail($id);
-        $imageunset = public_path($dbtable->image);
-        if(File::exists($imageunset)){
-            File::delete($imageunset);
-        }
-        $delete = $dbtable->delete();
-        if($delete){
-            return back()->with('success','Raw Material Deleted Successfully');
+        $materialcheck = RawMaterialcart::where('material_id',$id)->get()->count();
+        $materialcheck2 = RawmaterialStock::where('material_id',$id)->get()->count();
+        if($materialcheck > 0 || $materialcheck2 > 0){
+            return back()->with('warning','Sorry, This product related with other table');
         }else{
-            return back()->with('warning','Something Error, check again Please!!');
+            $dbtable = RawMaterial::findOrFail($id);
+            $imageunset = public_path($dbtable->image);
+            if(File::exists($imageunset)){
+                File::delete($imageunset);
+            }
+            $delete = $dbtable->delete();
+            if($delete){
+                return back()->with('success','Raw Material Deleted Successfully');
+            }else{
+                return back()->with('warning','Something Error, check again Please!!');
+            }
         }
+        
     }
 }

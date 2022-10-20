@@ -624,6 +624,8 @@ class ComposerStaticInit014e4f521663b391548311358a135aed
         'App\\Purchase_detail' => __DIR__ . '/../..' . '/app/Purchase_detail.php',
         'App\\RawMaterialcart' => __DIR__ . '/../..' . '/app/RawMaterialcart.php',
         'App\\Rawmaterial' => __DIR__ . '/../..' . '/app/Rawmaterial.php',
+        'App\\RawmaterialStock' => __DIR__ . '/../..' . '/app/RawmaterialStock.php',
+        'App\\RawmaterialStockDetail' => __DIR__ . '/../..' . '/app/RawmaterialStockDetail.php',
         'App\\Receivedetail' => __DIR__ . '/../..' . '/app/Receivedetail.php',
         'App\\Receivevoucher' => __DIR__ . '/../..' . '/app/Receivevoucher.php',
         'App\\Requisition' => __DIR__ . '/../..' . '/app/Requisition.php',
