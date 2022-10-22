@@ -958,7 +958,7 @@
     </script>
     <script type="text/javascript">
         function count_grand_total(){
-            var full_total = $('#total_amount').val();
+            var full_total = $('#price').val();
             var discount = $('#discount').val();
             var discount_amount = $('#discount_amount').val();
             var vat = $('#vat').val();

@@ -64,7 +64,17 @@
 					<h3 class="box-title"><?php if( Auth::User()->language == 1 ): ?> কার্ট লিস্ট <?php else: ?> Cart List <?php endif; ?></h3>
 					</div>
 					<div class="box-body">
-                        
+                        <label>Select Supplier</label>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="fa fa-user-o"></span></span>    
+                                <select class="form-control select2 select2-hidden-accessible" name="supplier_id" id="supid" tabindex="-1" aria-hidden="true" required>
+                                    <option value="" selected="">-Select-</option>  
+                                    
+                                </select>
+                                  
+                            </div>    
+                        </div> 
                         <table class="table table-bordered table-striped" style="margin-bottom: 0;">
                             <thead>
                                 <tr style="display:none"><input type="hidden" name="count" id="count" value=""></tr>
@@ -73,12 +83,57 @@
                                     <th width="150px"><?php if( Auth::User()->language == 1 ): ?> আইটেম নেম <?php else: ?> Item Name <?php endif; ?></th>
                                     <th width="60px"><?php if( Auth::User()->language == 1 ): ?> কোয়ানটিটি টাইপ <?php else: ?> Qty Type <?php endif; ?></th>
                                     <th width="70px"><?php if( Auth::User()->language == 1 ): ?> কোয়ানটিটি <?php else: ?> Quantity <?php endif; ?></th>
+                                    <th width="70px"><?php if( Auth::User()->language == 1 ): ?> প্রাইস <?php else: ?> Price <?php endif; ?></th>
                                     <th class="text-center" width="25px"><a class="empty" style="cursor: pointer;"><i class="fa fa-trash"></i></a></th>    
                                 </tr>
                             </thead>
                             <tbody id="cartData">
                                 
                             </tbody>
+                            <tfoot id="cartFooter">
+                                <tr>
+                                    <td colspan="3" style="text-align: right">Discount (%)</td>
+                                    <td><input type="number" class="form-control" onchange="count_grand_total()" id="discount" style="height: 24px;" max="100" value="0" min="0"></td>
+                                    <td><input type="text" class="form-control" id="discountfinal" style="height: 24px;" readonly value="0"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" style="text-align: right">Discount Amount</td>
+                                    <td><input type="number" class="form-control" onchange="count_grand_total()" id="discount_amount" style="height: 24px;" value="0" min="0"></td>
+                                    <td><input type="text" class="form-control" id="discount_amountfinal" style="height: 24px;" readonly value="0"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" style="text-align: right">Vat (%)</td>
+                                    <td><input type="number" class="form-control" onchange="count_grand_total()" id="vat" style="height: 24px;" value="0" min="0"></td>
+                                    <td><input type="text" class="form-control" id="vatfinal" style="height: 24px;" readonly value="0"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" style="text-align: right">Tax (%)</td>
+                                    <td><input type="number" class="form-control" onchange="count_grand_total()" id="tax" style="height: 24px;" value="0" min="0"></td>
+                                    <td><input type="text" class="form-control" id="taxfinal" style="height: 24px;" readonly value="0"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" style="text-align: right">Others</td>
+                                    <td><input type="number" class="form-control" onchange="count_grand_total()" id="others_amount" style="height: 24px;" value="0" min="0"></td>
+                                    <td><input type="text" class="form-control" id="others_amountfinal" style="height: 24px;" readonly value="0"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" style="text-align: right">Fractional Discount:</td>
+                                    <td><input type="number" class="form-control" onchange="count_grand_total()" id="fraction_discount_amount" style="height: 24px;" value="0" min="0"></td>
+                                    <td><input type="text" class="form-control" id="fraction_discount_amountfinal" style="height: 24px;" readonly value="0"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" style="text-align: right"><strong>Grand Total: </style></td>
+                                    <td></td>
+                                    <td><input type="text" class="form-control" id="total_amount" style="height: 24px; font-weight: bold" readonly value="0"></td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
                         </table>
                         <div class="purchase_checkout text-center d-none" style="margin-top: 15px">
                             <button type="submit" id="submit_purchase" class="btn btn-flat bg-purple" onClick="insertData()">Submit Purchase </button>
@@ -96,7 +151,9 @@
 
         allCartData();
         $('#submit_purchase').hide();
+        $('#cartFooter').hide();
 
+        
 
         function insertData(){
 
@@ -161,6 +218,7 @@
                     $('#count').val(response.count);
                     if(response.count > 0){
                         $('#submit_purchase').show();
+                        $('#total_amount').val('');
                     }
                     var allData = "";
                     var i = 1;
@@ -180,6 +238,7 @@
                                             </select>
                                         </td>
                                         <td><input type="number" class="form-control" id="quantity" value="${value.quantity}" min="1"></td>
+                                        <td><input type="number" class="form-control" id="price" onchange="change_total()" value="" min="1"></td>
                                         <td class="text-center"><a href="#" onclick="remove_from_cart(${value.id})" class="remove">
                                                             <span style="cursor: pointer;" class="fa fa-times"></span>
                                                         </a></td>
@@ -202,12 +261,54 @@
                 success:function(response){
                     toastr.success(response.message);
                     allCartData();
+                    $('#cartFooter').hide();
                 }
             });
         }
 
 
+        // change total
+        function change_total(){
+            var price = parseFloat(parseFloat($('#price').val()).toFixed(2))
+            var amount = $('#total_amount').val(price);
+            $('#cartFooter').show();
+        }
 
+        // Value Count
+        function count_grand_total(){
+
+            var full_total = $('#price').val();
+            var discount = $('#discount').val();
+            var discount_amount = $('#discount_amount').val();
+            var vat = $('#vat').val();
+            var tax = $('#tax').val();
+            var others_amount = $('#others_amount').val();
+            var fraction_discount_amount = $('#fraction_discount_amount').val();
+
+            if(discount>0){
+                var with_discount = parseFloat(full_total) - (parseFloat(full_total) * parseFloat(discount)/100);
+                $('#discountfinal').val(parseFloat(full_total) * parseFloat(discount)/100);
+                $('#discount_amount').val(parseFloat(full_total) * parseFloat(discount)/100);
+                $('#discount_amount').hide();
+            }else{
+                var with_discount = parseFloat(full_total) - parseFloat(discount_amount);
+                $('#discount_amountfinal').val(discount_amount);
+                //$('#discount').val(parseFloat(discount_amount)/(parseFloat(full_total)*100));
+                $('#discount').hide();
+            }
+            var with_vat = parseFloat(with_discount) + parseFloat(full_total) * (parseFloat(vat)/100);
+            var with_tax = parseFloat(with_vat) + (parseFloat(full_total) * (parseFloat(tax)/100));
+            var with_others = parseFloat(with_tax) + parseFloat(others_amount);
+            var with_fraction_discount_amount = parseFloat(with_others) - parseFloat(fraction_discount_amount);
+            $('#total_amount').val(with_fraction_discount_amount);
+            //$('#grtotal').html(with_fraction_discount_amount);
+
+            
+            $('#vatfinal').val(parseFloat(full_total) * parseFloat(vat)/100);
+            $('#taxfinal').val(parseFloat(full_total) * parseFloat(tax)/100);
+            $('#others_amountfinal').val(others_amount);
+            $('#fraction_discount_amountfinal').val(fraction_discount_amount);
+        }
 
 
     </script>
