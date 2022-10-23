@@ -1,0 +1,81 @@
+@extends("layouts/admin/main")
+@section("content")
+@php
+ $mhead='master';
+ $phead='disl';
+@endphp
+<section class="content-header">
+   <h1>@if ( Auth::User()->language == 1 ) জেলার লিস্ট @else District list @endif</h1>
+   <ol class="breadcrumb">
+      <li><a href="{{route('home')}}"><i class="fa fa-dashboard"></i>@if ( Auth::User()->language == 1 ) ড্যাসবোর্ড @else Dashboard @endif</a></li>
+      <li class=""><a href="">@if ( Auth::User()->language == 1 ) প্রোজেক্ট সাব-গ্রুপ ইডিট @else Project Sub-Group Edit @endif</a></li>
+   </ol>
+</section>
+<section class="content">
+   <div class="row">
+      <div class="col-md-8">
+         <div class="box box-solid">
+            <div class="box-header with-border">
+               <h3 class="box-title">@if ( Auth::User()->language == 1 ) জেলার লিস্ট @else District list @endif</h3>
+            </div>
+            <div class="box-body">
+               <div class="col-md-12 table-responsive">
+                <table class="table table-bordered table-striped" id="datarec">
+                    <thead class="text-uppercase">
+                       <tr>
+                          <th style="width:40px;">@if ( Auth::User()->language == 1 ) সিরিয়াল @else SN @endif</th>
+                           <th>@if ( Auth::User()->language == 1 ) জেলা @else District @endif</th>
+                           <th>@if ( Auth::User()->language == 1 ) দেশ @else Country @endif</th>
+                           <th style="width:40px; text-align:center;">@if ( Auth::User()->language == 1 ) অ্যাকশন @else Action @endif</th>
+                       </tr>
+                    </thead>
+                    <tbody>
+                        @php $i=1; @endphp
+                        @foreach ($districts as $district)
+
+                       <tr>
+                          <td class="center">{{$i++}}</td>
+                          <td>{{$district->district}}</td>
+                          <td>
+                             <div>{{$district->country}}</div>
+                          </td>
+                          <td nowrap="">
+                             <a class="btn btn-flat bg-purple" href="{{ route('district-edit-route', ['id' => $district->id]) }}"><i class="fa fa-edit"></i></a>
+                             <a class="btn btn-flat bg-purple" onclick="return confirm('Are you sure you want to delete this item?');" href="{{ route('district-destroy-route', ['id' => $district->id]) }}"><i class="fa fa-trash"></i></a>
+                          </td>
+                       </tr>
+                       @endforeach
+                    </tbody>
+                 </table>
+               </div>
+               <div class="clearfix" ></div>
+               <div class="row"style="margin-top: 15px" >
+                  <div class="col-md-12 table-responsive">
+                     <div class="col-md-8"></div>
+
+                     <div class="col-md-4 text-right" >
+                        <a href="{{ route('district-create-route') }}" class="btn btn-flat bg-purple" id="addnew">@if ( Auth::User()->language == 1 ) এড নিউ @else Add New @endif</a>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="col-md-4">
+         <div class="row">
+            <div class="col-md-12">
+               <div class="box box-solid">
+                  <div class="box-header">
+                     <h3 class="box-title">@if ( Auth::User()->language == 1 ) হিস্টোরি @else History @endif </h3>
+                  </div>
+                  <!-- /.box-header -->
+                  <div class="box-body" id="hisdata">
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</section>
+<!-- /.main content -->
+@endsection
