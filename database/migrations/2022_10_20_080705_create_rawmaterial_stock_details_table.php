@@ -18,6 +18,17 @@ class CreateRawmaterialStockDetailsTable extends Migration
             $table->string('material_id');
             $table->string('stock_invoice');
             $table->string('quantity');
+            $table->string('price');
+            $table->string('supplier');
+            $table->string('dis_percen')->nullable();
+            $table->string('dis_percen_amount')->nullable();
+            $table->string('vat_percen')->nullable();
+            $table->string('vat_percen_amount')->nullable();
+            $table->string('tax_percen')->nullable();
+            $table->string('tax_percen_amount')->nullable();
+            $table->string('others')->nullable();
+            $table->string('frac_dis')->nullable();
+            $table->string('grand_total');
             $table->string('date');
             $table->timestamps();
         });

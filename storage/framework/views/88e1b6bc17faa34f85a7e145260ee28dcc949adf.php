@@ -47,7 +47,7 @@
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>  
                         </div>
                         <div class="clearfix" ></div>
-                        <div class="col-md-12 table-responsive">
+                        <div class="col-md-12 table-responsive" style="margin-top: 30px">
                             <div class="col-md-8"></div>
                             <div class="col-md-4 text-right" >
                                 <a href="<?php echo e(route('rawmaterial-add')); ?>" class="btn btn-flat bg-purple"><?php if( Auth::User()->language == 1 ): ?> এড ম্যাটেরিয়াল <?php else: ?> Add Material <?php endif; ?></a>
@@ -68,9 +68,11 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon"><span class="fa fa-user-o"></span></span>    
-                                <select class="form-control select2 select2-hidden-accessible" name="supplier_id" id="supid" tabindex="-1" aria-hidden="true" required>
+                                <select class="form-control select2 select2-hidden-accessible" name="supplier" id="supplier" tabindex="-1" aria-hidden="true" required>
                                     <option value="" selected="">-Select-</option>  
-                                    
+                                    <?php $__currentLoopData = $supplier; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $single): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <option value="<?php echo e($single->id); ?>"><?php echo e($single->name); ?></option>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </select>
                                   
                             </div>    
@@ -160,12 +162,26 @@
             var material_id = $('#material_id').val();
             var qty_type = $('#qty_type').val();
             var quantity = $('#quantity').val();
+            var price = $('#price').val();
+            var supplier = $('#supplier').val();
+            // details
+            var dis_percen = $('#discount').val();
+            var dis_percen_amount = $('#discountfinal').val();
+            var direct_dis = $('#discount_amountfinal').val();
+            var vat_percen = $('#vat').val();
+            var vat_percen_amount = $('#vatfinal').val();
+            var tax_percen = $('#tax').val();
+            var tax_percen_amount = $('#taxfinal').val();
+            var others = $('#others_amountfinal').val();
+            var frac_dis = $('#fraction_discount_amountfinal').val();
+            var grand_total = $('#total_amount').val();
 
             $.ajax({
                 type: 'post',
                 dataType: 'json',
                 data: {
-                    material_id:material_id, qty_type:qty_type, quantity:quantity
+                    material_id:material_id, qty_type:qty_type, quantity:quantity, price:price, supplier:supplier, dis_percen:dis_percen, dis_percen_amount:dis_percen_amount, direct_dis:direct_dis, vat_percen:vat_percen,
+                    vat_percen_amount:vat_percen_amount, tax_percen:tax_percen, tax_percen_amount:tax_percen_amount, others:others, frac_dis:frac_dis, grand_total:grand_total,
                 },
                 url: "<?php echo e(route('rawmaterial_purchasestore')); ?>",
                 success:function(response){
@@ -174,6 +190,9 @@
                     }else{
                         toastr.success(response.message);
                         allCartData();
+                        $('#cartFooter .form-control').val('0');
+                        $('#cartFooter').hide();
+
                     }
                     
                 },
@@ -181,8 +200,14 @@
                     if(error.responseJSON.errors.qty_type){
                         toastr.error(error.responseJSON.errors.qty_type[0]);
                     }
-                    if(error.responseJSON.errors.quantity[0]){
+                    if(error.responseJSON.errors.quantity){
                         toastr.error(error.responseJSON.errors.quantity[0]);
+                    }
+                    if(error.responseJSON.errors.price){
+                        toastr.error(error.responseJSON.errors.price[0]);
+                    }
+                    if(error.responseJSON.errors.supplier){
+                        toastr.error(error.responseJSON.errors.supplier[0]);
                     }
                     
                 }

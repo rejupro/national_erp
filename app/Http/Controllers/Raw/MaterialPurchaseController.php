@@ -8,6 +8,7 @@ use App\Rawmaterial;
 use App\Rawmaterialcart;
 use App\RawmaterialStock;
 use App\RawmaterialStockDetail;
+use App\Supplier;
 use Auth;
 use DB;
 
@@ -16,7 +17,8 @@ class MaterialPurchaseController extends Controller
     // Purchase Page Show
     public function purchase(){
         $products = Rawmaterial::latest()->get();
-        return view('main.admin.rawmaterial.purchase.raw_purchase', compact('products'));
+        $supplier = Supplier::where('status', '1')->get();
+        return view('main.admin.rawmaterial.purchase.raw_purchase', compact('products', 'supplier'));
     }
     // Material Add to Cart
     public function rawtocart($id){
@@ -78,6 +80,8 @@ class MaterialPurchaseController extends Controller
             'material_id' => 'required',
             'qty_type' => 'required',
             'quantity' => 'required',
+            'price' => 'required',
+            'supplier' => 'required'
         ]);
 
         
@@ -87,16 +91,30 @@ class MaterialPurchaseController extends Controller
             $qty_type = RawmaterialStock::where('material_id', $request->material_id)->first()->qty_type;
             if($qty_type === $request->qty_type){
                 $updatestock = RawmaterialStock::where('material_id', $request->material_id)->first()->total_stock + $request->quantity;
+                $updateprice = RawmaterialStock::where('material_id', $request->material_id)->first()->grand_total + $request->grand_total;
                 $insertstock = RawmaterialStock::where('material_id', $request->material_id)->update([
                     'total_stock' => $updatestock,
+                    'grand_total' => $updateprice,
                 ]);
 
-                $count_invoice = RawmaterialStockDetail::latest()->count() + 1;
-                $stock_invoice = "invoice-code-". $count_invoice;
+                $count_invoice = RawmaterialStockDetail::where('material_id', $request->material_id)->get()->count() + 1;
+                $stock_invoice = "invoice-" . $request->material_id . "-" . $count_invoice;
                 $insertstockdetails = RawmaterialStockDetail::insert([
                     'material_id' => $request->material_id,
                     'stock_invoice' => $stock_invoice,
                     'quantity' => $request->quantity,
+                    'price' => $request->price,
+                    'supplier' => $request->supplier,
+                    'dis_percen' => $request->dis_percen,
+                    'dis_percen_amount' => $request->dis_percen_amount,
+                    'direct_dis' => $request->direct_dis,
+                    'vat_percen' => $request->vat_percen,
+                    'vat_percen_amount' => $request->vat_percen_amount,
+                    'tax_percen' => $request->tax_percen,
+                    'tax_percen_amount' => $request->tax_percen_amount,
+                    'others' => $request->others,
+                    'frac_dis' => $request->frac_dis,
+                    'grand_total' => $request->grand_total,
                     'date' => $ldate
                 ]);
 
@@ -119,19 +137,32 @@ class MaterialPurchaseController extends Controller
                 'material_id' => $request->material_id,
                 'qty_type' => $request->qty_type,
                 'total_stock' => $request->quantity,
+                'grand_total' => $request->grand_total
             ]);
-            $count = RawmaterialStockDetail::get()->count();
+            $count = RawmaterialStockDetail::where('material_id', $request->material_id)->get()->count();
             if($count > 0 ){
                 $increase = $count + 1;
-                $stock_invoice = "invoice-code-" . $increase;
+                $stock_invoice = "invoice-" . $request->material_id . "-" . $increase;
             }else{
-                $stock_invoice = "invoice-code-1";
+                $stock_invoice = "invoice-" . $request->material_id . "-1";
             }
             
             $insertstockdetails = RawmaterialStockDetail::insert([
                 'material_id' => $request->material_id,
                 'stock_invoice' => $stock_invoice,
                 'quantity' => $request->quantity,
+                'price' => $request->price,
+                'supplier' => $request->supplier,
+                'dis_percen' => $request->dis_percen,
+                'dis_percen_amount' => $request->dis_percen_amount,
+                'direct_dis' => $request->direct_dis,
+                'vat_percen' => $request->vat_percen,
+                'vat_percen_amount' => $request->vat_percen_amount,
+                'tax_percen' => $request->tax_percen,
+                'tax_percen_amount' => $request->tax_percen_amount,
+                'others' => $request->others,
+                'frac_dis' => $request->frac_dis,
+                'grand_total' => $request->grand_total,
                 'date' => $ldate
             ]);
 
@@ -163,14 +194,16 @@ class MaterialPurchaseController extends Controller
         $datas = DB::table('rawmaterial_stock_details')
         ->where('material_id', $id)
         ->leftjoin('rawmaterials', 'rawmaterial_stock_details.material_id', '=', 'rawmaterials.id')
-        ->select('rawmaterial_stock_details.*',  'rawmaterials.code')
+        ->leftjoin('suppliers', 'rawmaterial_stock_details.supplier', '=', 'suppliers.id')
+        ->select('rawmaterial_stock_details.*',  'rawmaterials.code', 'suppliers.name as supplier_name')
         ->orderBy('id', 'DESC')
         ->get();
         $material_name = Rawmaterial::where('id', $id)->first()->name;
         $total = DB::table('rawmaterial_stock_details')->where('material_id',$id)->sum('quantity');
         $qty_type = RawmaterialStock::where('material_id', $id)->first()->qty_type;
-
-        return view('main.admin.rawmaterial.stock.stock_single', compact('datas', 'material_name', 'total', 'qty_type') );
+        $total_price = DB::table('rawmaterial_stock_details')->where('material_id',$id)->sum('price');
+        $grand_total = DB::table('rawmaterial_stock_details')->where('material_id',$id)->sum('grand_total');
+        return view('main.admin.rawmaterial.stock.stock_single', compact('datas', 'material_name', 'total', 'qty_type', 'total_price', 'grand_total') );
     }
 
 

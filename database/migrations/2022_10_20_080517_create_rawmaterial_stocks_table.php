@@ -19,6 +19,7 @@ class CreateRawmaterialStocksTable extends Migration
             $table->string('qty_type');
             $table->string('total_stock');
             $table->string('make_material')->nullable();
+            $table->string('grand_total');
             $table->timestamps();
         });
     }

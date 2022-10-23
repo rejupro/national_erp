@@ -36,8 +36,19 @@
 	                      <thead class="text-uppercase">
 	                         <tr>
 	                           <th style="width:40px;">@if ( Auth::User()->language == 1 ) সিরিয়াল @else SN @endif</th>
-	                           <th>@if ( Auth::User()->language == 1 ) ম্যাটেরিয়াল কোড @else Material Code @endif</th>
 	                           <th>@if ( Auth::User()->language == 1 ) ইনভয়েস নাম্বার @else Invoice Number @endif</th>
+							   <th>@if ( Auth::User()->language == 1 ) প্রাইস @else Price @endif</th>
+							   <th>@if ( Auth::User()->language == 1 ) সাপ্লায়ার @else Supplier @endif</th>
+							   <th>@if ( Auth::User()->language == 1 ) ডিসকাউন্ট (%) @else Discount(%) @endif</th>
+							   <th>@if ( Auth::User()->language == 1 ) ডিসকাউন্ট  @else Discount @endif</th>
+							   <th>@if ( Auth::User()->language == 1 ) সরাসরি ডিসকাউন্ট  @else Direct Discount @endif</th>
+							   <th>@if ( Auth::User()->language == 1 ) ভ্যাট (%) @else Vat(%) @endif</th>
+							   <th>@if ( Auth::User()->language == 1 ) ভ্যাট @else Vat @endif</th>
+							   <th>@if ( Auth::User()->language == 1 ) ট্যাক্স(%) @else Tax(%) @endif</th>
+							   <th>@if ( Auth::User()->language == 1 ) ট্যাক্স @else Tax @endif</th>
+							   <th>@if ( Auth::User()->language == 1 ) অন্যান্য @else Others @endif</th>
+	                           <th>@if ( Auth::User()->language == 1 ) ফ্র্যাক ডিস @else Frac Dis @endif</th>
+	                           <th>@if ( Auth::User()->language == 1 ) গ্রান্ড টোটাল @else Grand Total @endif</th>
 	                           <th>@if ( Auth::User()->language == 1 ) তারিখ @else Date @endif</th>
 	                           <th class="text-center">@if ( Auth::User()->language == 1 ) কোয়ানটিটি @else Quantity @endif</th>
 	                         </tr>
@@ -47,8 +58,19 @@
 								@foreach($datas as $data)
                                     <tr>
                                         <td>{{$i++}}</td>
-                                        <td>{{$data->code}}</td>
                                         <td>{{$data->stock_invoice}}</td>
+										<td>{{$data->price}} bdt</td>
+										<td>{{$data->supplier_name}}</td>
+										<td>{{$data->dis_percen}}%</td>
+										<td>{{$data->dis_percen_amount}} bdt</td>
+										<td>{{$data->direct_dis}} bdt</td>
+										<td>{{$data->vat_percen}}%</td>
+										<td>{{$data->vat_percen_amount}} bdt</td>
+										<td>{{$data->tax_percen}}%</td>
+										<td>{{$data->tax_percen_amount}} bdt</td>
+										<td>{{$data->others}} bdt</td>
+										<td>{{$data->frac_dis}} bdt</td>
+										<td>{{$data->grand_total}} bdt</td>
                                         <td>{{$data->date}}</td>
                                         <td class="text-center">{{$data->quantity}} {{$qty_type}}</td>
                                     </tr>
@@ -56,7 +78,12 @@
 	                      </tbody>
                           <tfoot>
                             <tr>
-                                <td colspan="4" style="text-align: right;padding-right: 10px"><strong>@if ( Auth::User()->language == 1 ) সর্বমোট @else Total Quantity @endif : </strong></td>
+								<td colspan="2" style="text-align: right"><strong>@if ( Auth::User()->language == 1 ) ডিফল্ট প্রাইস @else Default Price @endif : </strong></td>
+								<td class="text-center"><strong>{{$total_price}} bdt</strong></td>
+								<td colspan="8"></td>
+								<td colspan="2" style="text-align: right"><strong>@if ( Auth::User()->language == 1 ) সর্বমোট @else Grand Total @endif : </strong></td>
+								<td class="text-center">{{$grand_total}} bdt</td>
+                                <td colspan="" style="text-align: right;padding-right: 10px"><strong>@if ( Auth::User()->language == 1 ) সর্বমোট @else Total Quantity @endif : </strong></td>
                                 <td class="text-center"><strong>{{$total}} {{$qty_type}}</strong></td>
                                 
                             </tr>
