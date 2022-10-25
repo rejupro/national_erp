@@ -185,6 +185,7 @@ return array(
     'App\\Purchase' => $baseDir . '/app/Purchase.php',
     'App\\Purchase_detail' => $baseDir . '/app/Purchase_detail.php',
     'App\\RawMaterialcart' => $baseDir . '/app/RawMaterialcart.php',
+    'App\\RawOthermaterial' => $baseDir . '/app/RawOthermaterial.php',
     'App\\Rawmaterial' => $baseDir . '/app/Rawmaterial.php',
     'App\\RawmaterialStock' => $baseDir . '/app/RawmaterialStock.php',
     'App\\RawmaterialStockDetail' => $baseDir . '/app/RawmaterialStockDetail.php',

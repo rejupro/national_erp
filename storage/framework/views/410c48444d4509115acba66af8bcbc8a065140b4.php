@@ -367,6 +367,8 @@
                <li><a href="<?php echo e(route('rawmaterial-list')); ?>" <?php if(isset($phead) && $phead=='raw_materiallist'): ?> class="active" <?php endif; ?>><i class="fa fa-caret-right"></i> <?php if( Auth::User()->language == 1 ): ?> রো ম্যাটেরিয়াল লিস্ট <?php else: ?> Raw Material List <?php endif; ?></a></li>
                <li><a href="<?php echo e(route('rawmaterial-purchase')); ?>" <?php if(isset($phead) && $phead=='material_purchase'): ?> class="active" <?php endif; ?>><i class="fa fa-caret-right"></i> <?php if( Auth::User()->language == 1 ): ?>  ম্যাটেরিয়াল পারচেস <?php else: ?> Material Purchase <?php endif; ?></a></li>
                <li><a href="<?php echo e(route('material_stock')); ?>" <?php if(isset($phead) && $phead=='raw_materialstock'): ?> class="active" <?php endif; ?>><i class="fa fa-caret-right"></i> <?php if( Auth::User()->language == 1 ): ?>  ম্যাটেরিয়াল স্টক <?php else: ?> Material Stock <?php endif; ?></a></li>
+               <li><a href="<?php echo e(route('other_rawmaterial')); ?>" <?php if(isset($phead) && $phead=='other_materiallist'): ?> class="active" <?php endif; ?>><i class="fa fa-caret-right"></i> <?php if( Auth::User()->language == 1 ): ?>  অন্যান্য এক্সপেন্স <?php else: ?> Other Expense <?php endif; ?></a></li>
+               <li><a href="<?php echo e(route('rawproduct_create')); ?>" <?php if(isset($phead) && $phead=='rawproduct_create'): ?> class="active" <?php endif; ?>><i class="fa fa-caret-right"></i> <?php if( Auth::User()->language == 1 ): ?>  রো প্রোডাক্ট ক্রিয়েট <?php else: ?> Raw Product Create <?php endif; ?></a></li>
             </ul>
          </li>
 
