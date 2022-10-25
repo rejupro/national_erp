@@ -10,7 +10,7 @@
         <li class=""><a href=""><?php if( Auth::User()->language == 1 ): ?> প্রোডাক্ট লিস্ট <?php else: ?> Product List <?php endif; ?></a></li>
      </ol>
     </section>
- <!-- Main content -->
+<!-- Main content -->
 <section class="content">
     <div class="row">
        <div class="col-md-8">

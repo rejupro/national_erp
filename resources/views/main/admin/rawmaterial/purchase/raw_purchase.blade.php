@@ -33,7 +33,7 @@
                         @endif
                         <div class="col-md-12 table-responsive">
                             @foreach($products as $product)
-                            <div class="product-content product-select puritem" onclick="catmethod({{$product->id}})">
+                            <div class="product-content product-select puritem" onclick="catmethod({{ $product->id }})">
                                 <img src="{{asset('public/'. $product->image)}}" class="product-image">
                                 <div class="info">
                                     <h3>15 Pcs</h3>

@@ -46,7 +46,9 @@ Route::post('/other-rawmaterialstore','Raw\MaterialPurchaseController@other_rawm
 Route::get('/other-rawmaterialedit/{id}','Raw\MaterialPurchaseController@other_rawmaterialedit')->name('other_rawmaterialedit');
 Route::post('/other-rawmaterialupdate/{id}','Raw\MaterialPurchaseController@other_rawmaterialupdate')->name('other_rawmaterialupdate');
 Route::get('/other-rawmaterialdelete/{id}','Raw\MaterialPurchaseController@other_rawmaterialdelete')->name('other_rawmaterialdelete');
-
+// Raw Product Create
+Route::get('/rawproduct/create','Raw\RawProductController@rawproduct_create')->name('rawproduct_create');
+Route::post('/rawproduct/store','Raw\RawProductController@rawproduct_store')->name('rawproduct_store');
 
 
 
