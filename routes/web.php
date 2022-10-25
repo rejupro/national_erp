@@ -39,6 +39,13 @@ Route::post('/rawmaterial-purchase/store','Raw\MaterialPurchaseController@rawmat
 // Raw Material Stock
 Route::get('/rawmaterial-stock','Raw\MaterialPurchaseController@material_stock')->name('material_stock');
 Route::get('/rawmaterial-stock/{id}','Raw\MaterialPurchaseController@material_stocksingle')->name('material_stocksingle');
+// Other Material
+Route::get('/other-rawmateriallist','Raw\MaterialPurchaseController@other_rawmaterial')->name('other_rawmaterial');
+Route::get('/other-rawmaterialadd','Raw\MaterialPurchaseController@other_rawmaterialadd')->name('other_rawmaterialadd');
+Route::post('/other-rawmaterialstore','Raw\MaterialPurchaseController@other_rawmaterialstore')->name('other_rawmaterialstore');
+Route::get('/other-rawmaterialedit/{id}','Raw\MaterialPurchaseController@other_rawmaterialedit')->name('other_rawmaterialedit');
+Route::post('/other-rawmaterialupdate/{id}','Raw\MaterialPurchaseController@other_rawmaterialupdate')->name('other_rawmaterialupdate');
+Route::get('/other-rawmaterialdelete/{id}','Raw\MaterialPurchaseController@other_rawmaterialdelete')->name('other_rawmaterialdelete');
 
 
 

@@ -8,9 +8,11 @@ use App\Rawmaterial;
 use App\Rawmaterialcart;
 use App\RawmaterialStock;
 use App\RawmaterialStockDetail;
+use App\RawOthermaterial;
 use App\Supplier;
 use Auth;
 use DB;
+use File;
 
 class MaterialPurchaseController extends Controller
 {
@@ -208,9 +210,122 @@ class MaterialPurchaseController extends Controller
 
 
 
+    // Other Material
+    public function other_rawmaterialadd(){
+        return view('main.admin.rawmaterial.other.othermaterial_add');
+    }
+    public function other_rawmaterialstore(Request $request){
+        $validated = $request->validate([
+            'code' => 'required|unique:raw_othermaterials',
+            'name' => 'required',
+            'price' => 'required|max:200',
+            'image' => 'max:200',
+        ]);
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $name = time().'.'.$image->getClientOriginalExtension();
+            $destinationPath = public_path('/Upload/rawmaterial');
+            $image->move($destinationPath, $name);
+            $imagename = 'Upload/rawmaterial/'.$name;
 
+            $insert = RawOthermaterial::insert([
+                'code' => $request->code,
+                'name' => $request->name,
+                'price' => $request->price,
+                'image' => $imagename,
+                'description' => $request->description,
+            ]);
 
+            if($insert){
+                return redirect(route('other_rawmaterial'))->with('success','Other Material Added Successfully');
+            }else{
+                return back()->with('warning','Something Error, check again Please!!');
+            }
+        }else{
+            $insert = RawOthermaterial::insert([
+                'code' => $request->code,
+                'name' => $request->name,
+                'price' => $request->price,
+                'description' => $request->description,
+            ]);
 
+            if($insert){
+                return redirect(route('other_rawmaterial'))->with('success','Other Material Added Successfully');
+            }else{
+                return back()->with('warning','Something Error, check again Please!!');
+            }
+        }
+    }
+    public function other_rawmaterial(){
+        $datas = RawOthermaterial::orderBy('id', 'DESC')->get();
+        return view('main.admin.rawmaterial.other.othermaterial_list', compact('datas'));
+    }
+    public function other_rawmaterialedit($id){
+        $data = RawOthermaterial::where('id', $id)->first();
+        return view('main.admin.rawmaterial.other.othermaterial_edit', compact('data'));
+    }
+    // update
+    public function other_rawmaterialupdate($id, Request $request){
+        $validated = $request->validate([
+            'code' => 'required',
+            'name' => 'required',
+            'price' => 'required',
+            'image' => 'max:200',
+        ]);
+
+        $dbtable = RawOthermaterial::findOrFail($id);
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageunset = public_path($dbtable->image);
+            if(File::exists($imageunset)){
+                File::delete($imageunset);
+            }
+            $name = time().'.'.$image->getClientOriginalExtension();
+            $destinationPath = public_path('/Upload/rawmaterial');
+            $image->move($destinationPath, $name);
+            $imagename = 'Upload/rawmaterial/'.$name;
+
+            $update = $dbtable->update([
+                'code' => $request->code,
+                'name' => $request->name,
+                'image' => $imagename,
+                'description' => $request->description,
+            ]);
+
+            if($update){
+                return redirect(route('other_rawmaterial'))->with('success','Raw Material Updated with image Successfully');
+            }else{
+                return back()->with('warning','Something Error, check again Please!!');
+            }
+        }else{
+            $update = $dbtable->update([
+                'code' => $request->code,
+                'name' => $request->name,
+                'price' => $request->price,
+                'description' => $request->description,
+            ]);
+
+            if($update){
+                return redirect(route('other_rawmaterial'))->with('success','Raw Material Updated Without img Successfully');
+            }else{
+                return back()->with('warning','Something Error, check again Please!!');
+            }
+        }
+    }
+    public function other_rawmaterialdelete($id){
+        $dbtable = RawOthermaterial::findOrFail($id);
+        $imageunset = public_path($dbtable->image);
+        if(File::exists($imageunset)){
+            File::delete($imageunset);
+        }
+        $delete = $dbtable->delete();
+        if($delete){
+            return back()->with('success','Raw Material Deleted Successfully');
+        }else{
+            return back()->with('warning','Something Error, check again Please!!');
+        }
+    }
 
 
 

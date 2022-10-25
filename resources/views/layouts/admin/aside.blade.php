@@ -367,6 +367,7 @@
                <li><a href="{{route('rawmaterial-list')}}" @if(isset($phead) && $phead=='raw_materiallist') class="active" @endif><i class="fa fa-caret-right"></i> @if ( Auth::User()->language == 1 ) রো ম্যাটেরিয়াল লিস্ট @else Raw Material List @endif</a></li>
                <li><a href="{{route('rawmaterial-purchase')}}" @if(isset($phead) && $phead=='material_purchase') class="active" @endif><i class="fa fa-caret-right"></i> @if ( Auth::User()->language == 1 )  ম্যাটেরিয়াল পারচেস @else Material Purchase @endif</a></li>
                <li><a href="{{route('material_stock')}}" @if(isset($phead) && $phead=='raw_materialstock') class="active" @endif><i class="fa fa-caret-right"></i> @if ( Auth::User()->language == 1 )  ম্যাটেরিয়াল স্টক @else Material Stock @endif</a></li>
+               <li><a href="{{route('other_rawmaterial')}}" @if(isset($phead) && $phead=='other_materiallist') class="active" @endif><i class="fa fa-caret-right"></i> @if ( Auth::User()->language == 1 )  অন্যান্য এক্সপেন্স @else Other Expense @endif</a></li>
             </ul>
          </li>
 

@@ -364,9 +364,10 @@
             </span>
             </a>
             <ul class="treeview-menu" <?php if(isset($mhead) && $mhead=='raw_material'): ?> style="display: block;" <?php endif; ?>>
-               <?php if($category_list == 'category_list' || Auth::User()->status == 007): ?>
-               <li><a href="<?php echo e(route('category-list')); ?>" <?php if(isset($phead) && $phead=='raw_materiallist'): ?> class="active" <?php endif; ?>><i class="fa fa-caret-right"></i> <?php if( Auth::User()->language == 1 ): ?> রো ম্যাটেরিয়াল লিস্ট <?php else: ?> Raw Material List <?php endif; ?></a></li>
-               <?php endif; ?>
+               <li><a href="<?php echo e(route('rawmaterial-list')); ?>" <?php if(isset($phead) && $phead=='raw_materiallist'): ?> class="active" <?php endif; ?>><i class="fa fa-caret-right"></i> <?php if( Auth::User()->language == 1 ): ?> রো ম্যাটেরিয়াল লিস্ট <?php else: ?> Raw Material List <?php endif; ?></a></li>
+               <li><a href="<?php echo e(route('rawmaterial-purchase')); ?>" <?php if(isset($phead) && $phead=='material_purchase'): ?> class="active" <?php endif; ?>><i class="fa fa-caret-right"></i> <?php if( Auth::User()->language == 1 ): ?>  ম্যাটেরিয়াল পারচেস <?php else: ?> Material Purchase <?php endif; ?></a></li>
+               <li><a href="<?php echo e(route('material_stock')); ?>" <?php if(isset($phead) && $phead=='raw_materialstock'): ?> class="active" <?php endif; ?>><i class="fa fa-caret-right"></i> <?php if( Auth::User()->language == 1 ): ?>  ম্যাটেরিয়াল স্টক <?php else: ?> Material Stock <?php endif; ?></a></li>
+               <li><a href="<?php echo e(route('other_rawmaterial')); ?>" <?php if(isset($phead) && $phead=='other_materiallist'): ?> class="active" <?php endif; ?>><i class="fa fa-caret-right"></i> <?php if( Auth::User()->language == 1 ): ?>  অন্যান্য এক্সপেন্স <?php else: ?> Other Expense <?php endif; ?></a></li>
             </ul>
          </li>
 
