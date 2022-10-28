@@ -63,7 +63,6 @@ class RawMaterialController extends Controller
         ]);
 
         $dbtable = RawMaterial::findOrFail($id);
-
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageunset = public_path($dbtable->image);

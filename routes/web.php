@@ -48,6 +48,16 @@ Route::post('/other-rawmaterialupdate/{id}','Raw\MaterialPurchaseController@othe
 Route::get('/other-rawmaterialdelete/{id}','Raw\MaterialPurchaseController@other_rawmaterialdelete')->name('other_rawmaterialdelete');
 // Raw Product Create
 Route::get('/rawproduct/create','Raw\RawProductController@rawproduct_create')->name('rawproduct_create');
+// Product In Cart
+Route::get('/rawproduct/cart/{id}','Raw\RawProductController@rawproduct_cart')->name('rawproduct_cart');
+Route::get('/rawproduct/cartlist','Raw\RawProductController@rawproduct_cartlist')->name('rawproduct_cartlist');
+// Remove From List
+Route::get('/rawproduct/cartremove/{id}','Raw\RawProductController@rawproduct_cartremove')->name('rawproduct_cartremove');
+// Expense Cart
+Route::get('/rawproduct/expense_cartadd/{id}','Raw\RawProductController@expense_cartadd')->name('expense_cartadd');
+Route::get('/rawproduct/expense_cartlist','Raw\RawProductController@expense_cartlist')->name('expense_cartlist');
+Route::get('/rawproduct/expense_cartremove/{id}','Raw\RawProductController@expense_cartremove')->name('expense_cartremove');
+// In Stock
 Route::post('/rawproduct/store','Raw\RawProductController@rawproduct_store')->name('rawproduct_store');
 
 
