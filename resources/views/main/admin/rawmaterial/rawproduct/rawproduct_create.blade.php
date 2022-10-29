@@ -41,11 +41,11 @@
 						<div class="row" style="margin-bottom: 15px;">
 							<div class="col-md-4">
 								<label>Product Batch</label>
-								<input type="text" class="form-control" placeholder="Enter Batch">
+								<input type="text" class="form-control" id="product_batch" placeholder="Enter Batch">
 							</div>
 							<div class="col-md-4">
 								<label>Product Name</label>
-								<select class="form-control select2 select2-hidden-accessible" name="supplier" id="supplier" tabindex="-1" aria-hidden="true" required>
+								<select class="form-control select2 select2-hidden-accessible" name="supplier" id="product" tabindex="-1" aria-hidden="true" required>
 									<option value="" selected="" disabled="">Select Option</option>
 									@foreach($products as $product)
 									<option value="{{$product->id}}">{{$product->name}}</option>
@@ -280,27 +280,49 @@
 		
 
 		function submitRawProduct(){
+			var product_batch = $('#product_batch').val();
+			var product = $('#product').val();
+
 			var product_id = $('input[name="product_id[]"]').map(function(){ 
                 return this.value; 
             }).get();
-
 			var give_type = $('input[name="give_type[]"]').map(function(){ 
                 return this.value; 
             }).get();
-
+			var given_amount = $('input[name="given_amount[]"]').map(function(){ 
+                return this.value; 
+            }).get();
+			var packate_type = $('select[name="packate_type[]"]').map(function(){ 
+                return this.value; 
+            }).get();
+			var packate_weight = $('input[name="packate_weight[]"]').map(function(){ 
+                return this.value; 
+            }).get();
+			var product_cost = $('input[name="product_cost[]"]').map(function(){ 
+                return this.value; 
+            }).get();
 			var maked = $('input[name="maked[]"]').map(function(){ 
                 return this.value; 
             }).get();
-
 			var stock_invoice = $('input[name="stock_invoice[]"]').map(function(){ 
                 return this.value; 
             }).get();
 
 			// Expense Total
+			var expense_id = $('input[name="expense_id[]"]').map(function(){ 
+                return this.value; 
+            }).get();
+			var expense_price = $('input[name="expense_price[]"]').map(function(){ 
+                return this.value; 
+            }).get();
+			var expense_qty = $('input[name="expense_qty[]"]').map(function(){ 
+                return this.value; 
+            }).get();
 			var expense_total = $('input[name="expense_total[]"]').map(function(){ 
                 return this.value; 
             }).get();
 
+			// Expense Total
 			var total = 0;
 			$( ".expense_total" ).each( function(){
 			  total += parseFloat( $( this ).val() ) || 0;
@@ -313,27 +335,49 @@
 			if(!deduction_expense){
 				$('#deduction_expense').val("0");
 			}
-			var total = parseFloat(total) + parseFloat(other_expense) - parseFloat(deduction_expense);
-			alert(stock_invoice)
+			var totalproPrice = 0;
+			$( ".product_cost" ).each( function(){
+			  totalproPrice += parseFloat( $( this ).val() ) || 0;
+			});
+			var totalHisab = parseFloat(totalproPrice) + parseFloat(total) + parseFloat(other_expense) - parseFloat(deduction_expense);
 			
+            var well_product = $('#multiple_well').val();
+            var wasted_product = $('#wasted_product').val();
+            var extra_product = $('#extra_product').val();
             var total_readyproduct = $('#total_readyproduct').val();
-            
 			$.ajax({
                 type: 'post',
                 dataType: 'json',
                 data: {
+                	product_batch:product_batch, 
+                	product:product, //top
+
                 	product_id:product_id, 
+                	totalHisab:totalHisab,  //total cost with expense
+                	total:total, //packate price
+                	other_expense:other_expense,
+                	deduction_expense:deduction_expense,
+                	well_product:well_product,
+                	wasted_product:wasted_product,
+                	extra_product:extra_product,
                 	give_type:give_type,
+                	given_amount:given_amount,
+                	packate_type:packate_type,
+                	packate_weight:packate_weight,
+                	product_cost:product_cost,
                 	maked:maked,
                 	stock_invoice:stock_invoice,
-                	total_readyproduct:total_readyproduct,
-                	expense_total:expense_total
+                	total_readyproduct:total_readyproduct, //below expense
+                	expense_id:expense_id,
+                	expense_price:expense_price,
+                	expense_qty:expense_qty,
+                	expense_total:expense_total,
                 },
                 url: "{{route('rawproduct_store')}}",
                 success:function(response){
+                	allCartData();
+					expenseList();
                 	toastr.success(response.message);
-                	console.log(response.data);
-                    console.log(response.count)
                 },
                 error:function(error){
                     console.log(error)
@@ -408,10 +452,10 @@
 										</select>
 									</td>
 									<td>
-										<input type="text" id="packate_weight${key+1}" name="packate_weight[]" class="form-control packate_weight disabled" onkeyup="packate_weight(${key+1})" value="">
+										<input type="text" id="packate_weight${key+1}" name="packate_weight[]" class="form-control packate_weight disabled" onkeyup="packate_weight(${key+1})" min="1">
 									</td>
 									<td>
-										<input type="text" class="form-control" id="product_cost${key+1}" name="product_cost[]" readonly>
+										<input type="text" class="form-control product_cost" id="product_cost${key+1}" name="product_cost[]" readonly>
 									</td>
 									<td>
 										<input type="text" class="form-control maked" id="maked${key+1}" name="maked[]" readonly>

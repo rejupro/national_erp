@@ -11,6 +11,9 @@ use App\RawmaterialStockDetail;
 use App\RawStockCart;
 use App\RawOthermaterial;
 use App\RawOthermatCart;
+use App\RawProductStock;
+use App\RawProductStockMaterial;
+use App\RawProductStockExpense;
 use DB;
 use Auth;
 
@@ -148,33 +151,100 @@ class RawProductController extends Controller
     // Raw Product Store
     public function rawproduct_store(Request $request){
         $validated = $request->validate([
+            'product_batch' => 'required|unique:raw_product_stocks',
+            'product' => 'required',
+
             'give_type' => 'required',
             'total_readyproduct' => 'required',
-            'maked.*' => 'required',
-            'expense_total.*' => 'required'
+            'maked.*' => 'required|min:1',
+            'expense_qty.*' => 'required|min:1',
+            'expense_total.*' => 'required',
         ]);
+        // Insert In Stock
+        $stockinsert = RawProductStock::insert([
+            'product_batch' => $request->product_batch,
+            'product_id' => $request->product,
+            'product_cost' => $request->totalHisab, //all cost with expenses
+            'packate_expense' => $request->total, //just packate price
+            'well_product' => $request->well_product, 
+            'other_expense' => $request->other_expense, 
+            'deduction_expense' => $request->deduction_expense, 
+            'wasted_product' => $request->wasted_product, 
+            'extra_product' => $request->extra_product, 
+            'total_ready_product' => $request->total_readyproduct, 
+        ]);
+
+
+
+        // Insert In Stock Material
         $user_id = Auth::user()->id;
         $count = RawStockCart::where('user_id', $user_id)->get()->count();
         $i = 0;
         for ($i; $i < $count; $i++):
             $array[] = [
-                'product_id' => $request->product_id[$i],
+                'product_batch' => $request->product_batch,
+                'material_id' => $request->product_id[$i],
+                'give_type' => $request->give_type[$i],
+                'given_amount' => $request->given_amount[$i],
+                'packate_type' => $request->packate_type[$i],
+                'packate_weight' => $request->packate_weight[$i],
+                'product_cost' => $request->product_cost[$i],
                 'maked' => $request->maked[$i],
+                'packate_type' => $request->give_type[$i],
             ];
+            
+            if($request->give_type[$i] == 'kg'){
+                $given_amount = round($request->given_amount[$i] / 1000, 2);
+            }else{
+                $given_amount = $request->given_amount[$i];
+            }
+
             $RawmaterialStockDetail = RawmaterialStockDetail::where('material_id', $request->product_id[$i])->whereNotIn('finished', [1,5])->first();
-            $update_quantity = RawmaterialStockDetail::where('material_id', $request->product_id[$i])->whereNotIn('finished', [1,5])->first()->maked_quantity + 1;
+            $update_quantity = RawmaterialStockDetail::where('material_id', $request->product_id[$i])->whereNotIn('finished', [1,5])->first()->maked_quantity + $given_amount;
             DB::table('rawmaterial_stock_details')->where('material_id', $request->product_id[$i])->where('stock_invoice', $request->stock_invoice[$i])->whereNotIn('finished', [1,5])->update([
                 'maked_quantity' => $update_quantity
             ]);
-
+            if($RawmaterialStockDetail->quantity == $RawmaterialStockDetail->maked_quantity + $given_amount || $RawmaterialStockDetail->quantity < $RawmaterialStockDetail->maked_quantity + $given_amount){
+                DB::table('rawmaterial_stock_details')->where('material_id', $request->product_id[$i])->where('stock_invoice', $request->stock_invoice[$i])->whereNotIn('finished', [1,5])->update([
+                'finished' => 1,
+                ]);
+            }
         endfor;
-        
-        return response()->json([
-            'message' => 'Thanks you',
-            'data' => $array,
-            'count' => $count,
+        $stockmaterial = RawProductStockMaterial::insert($array);
+        if($stockmaterial){
+            $deletecart1 = RawStockCart::where('user_id', $user_id)->delete();
+        }
 
-        ]);
+        // Insert In Stock Expense
+        $expensecount = RawOthermatCart::where('user_id', $user_id)->get()->count();
+        $e = 0;
+        for ($e; $e < $expensecount; $e++):
+            $expensearray[] = [
+                'product_batch' => $request->product_batch,
+                'expense_id' => $request->expense_id[$e],
+                'expense_price' => $request->expense_price[$e],
+                'expense_quantity' => $request->expense_qty[$e],
+                'expense_total' => $request->expense_total[$e],
+            ];
+        endfor;
+        $stockexpense = RawProductStockExpense::insert($expensearray);
+        if($stockexpense){
+            $deletecart = RawOthermatCart::where('user_id', $user_id)->delete();
+        }
+        
+        if($stockmaterial){
+            return response()->json([
+                'message' => 'Thanks you',
+                'data' => $array,
+
+            ]);
+        }else{
+            return response()->json([
+                'message' => 'error man',
+
+            ]);
+        }
+        
         
     }
 }
