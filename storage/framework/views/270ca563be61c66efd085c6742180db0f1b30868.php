@@ -369,9 +369,21 @@
                <li><a href="<?php echo e(route('material_stock')); ?>" <?php if(isset($phead) && $phead=='raw_materialstock'): ?> class="active" <?php endif; ?>><i class="fa fa-caret-right"></i> <?php if( Auth::User()->language == 1 ): ?>  ম্যাটেরিয়াল স্টক <?php else: ?> Material Stock <?php endif; ?></a></li>
                <li><a href="<?php echo e(route('other_rawmaterial')); ?>" <?php if(isset($phead) && $phead=='other_materiallist'): ?> class="active" <?php endif; ?>><i class="fa fa-caret-right"></i> <?php if( Auth::User()->language == 1 ): ?>  অন্যান্য এক্সপেন্স <?php else: ?> Other Expense <?php endif; ?></a></li>
                <li><a href="<?php echo e(route('rawproduct_create')); ?>" <?php if(isset($phead) && $phead=='rawproduct_create'): ?> class="active" <?php endif; ?>><i class="fa fa-caret-right"></i> <?php if( Auth::User()->language == 1 ): ?>  রো প্রোডাক্ট ক্রিয়েট <?php else: ?> Raw Product Create <?php endif; ?></a></li>
+               <li><a href="<?php echo e(route('rawproduct_stock')); ?>" <?php if(isset($phead) && $phead=='rawproduct_stock'): ?> class="active" <?php endif; ?>><i class="fa fa-caret-right"></i> <?php if( Auth::User()->language == 1 ): ?>  রো প্রোডাক্ট স্টক <?php else: ?> Raw Product Stock <?php endif; ?></a></li>
             </ul>
          </li>
 
+         <li class="treeview" <?php if(isset($mhead) && $mhead=='raw_sale'): ?> menu-open <?php endif; ?>>
+            <a href="#">
+            <i class="fa fa-shopping-cart ani_icon"></i> <span><?php if( Auth::User()->language == 1 ): ?> রো প্রোডাক্ট সেলস <?php else: ?> Raw Product Sales <?php endif; ?></span>
+            <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+            </span>
+            </a>
+            <ul class="treeview-menu" <?php if(isset($mhead) && $mhead=='raw_sale'): ?> style="display: block;" <?php endif; ?>>
+               <li><a href="<?php echo e(route('raw_salecreate')); ?>" <?php if(isset($phead) && $phead=='raw_salecreate'): ?> class="active" <?php endif; ?>><i class="fa fa-caret-right"></i> <?php if( Auth::User()->language == 1 ): ?> নিউ সেল <?php else: ?> New Sale <?php endif; ?></a></li>
+            </ul>
+         </li>
 
          <?php if(Auth::User()->master || Auth::User()->status == 007): ?>
          <li class="treeview" <?php if(isset($mhead) && $mhead=='master'): ?> menu-open <?php endif; ?>>

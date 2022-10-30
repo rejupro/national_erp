@@ -50,6 +50,9 @@
 	                           <th><?php if( Auth::User()->language == 1 ): ?> গ্রান্ড টোটাল <?php else: ?> Grand Total <?php endif; ?></th>
 	                           <th><?php if( Auth::User()->language == 1 ): ?> তারিখ <?php else: ?> Date <?php endif; ?></th>
 	                           <th class="text-center"><?php if( Auth::User()->language == 1 ): ?> কোয়ানটিটি <?php else: ?> Quantity <?php endif; ?></th>
+	                           <th class="text-center"><?php if( Auth::User()->language == 1 ): ?> মেকড <?php else: ?> Maked <?php endif; ?></th>
+	                           <th class="text-center"><?php if( Auth::User()->language == 1 ): ?> স্টক <?php else: ?> Stock <?php endif; ?></th>
+	                           <th class="text-center"><?php if( Auth::User()->language == 1 ): ?> স্ট্যাটাস <?php else: ?> Status <?php endif; ?></th>
 	                         </tr>
 	                      </thead>
 	                      <tbody>
@@ -72,6 +75,15 @@
 										<td><?php echo e($data->grand_total); ?> bdt</td>
                                         <td><?php echo e($data->date); ?></td>
                                         <td class="text-center"><?php echo e($data->quantity); ?> <?php echo e($qty_type); ?></td>
+                                        <td class="text-center"><?php echo e($data->maked_quantity); ?> <?php echo e($qty_type); ?></td>
+                                        <td class="text-center"><?php echo e($data->quantity - $data->maked_quantity); ?> <?php echo e($qty_type); ?></td>
+                                        <td class="text-center">
+                                        	<?php if($data->finished == 1): ?>
+                                        	<span class="btn btn-warning">Stock Out</span>
+                                        	<?php else: ?>
+                                        	<span class="btn btn-success">Available</span>
+                                        	<?php endif; ?>
+                                        </td>
                                     </tr>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 	                      </tbody>
@@ -84,7 +96,8 @@
 								<td class="text-center"><?php echo e($grand_total); ?> bdt</td>
                                 <td colspan="" style="text-align: right;padding-right: 10px"><strong><?php if( Auth::User()->language == 1 ): ?> সর্বমোট <?php else: ?> Total Quantity <?php endif; ?> : </strong></td>
                                 <td class="text-center"><strong><?php echo e($total); ?> <?php echo e($qty_type); ?></strong></td>
-                                
+                                <td></td>
+                                <td colspan="2"></td>
                             </tr>
                           </tfoot>
 	                   </table>

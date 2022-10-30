@@ -369,9 +369,21 @@
                <li><a href="{{route('material_stock')}}" @if(isset($phead) && $phead=='raw_materialstock') class="active" @endif><i class="fa fa-caret-right"></i> @if ( Auth::User()->language == 1 )  ম্যাটেরিয়াল স্টক @else Material Stock @endif</a></li>
                <li><a href="{{route('other_rawmaterial')}}" @if(isset($phead) && $phead=='other_materiallist') class="active" @endif><i class="fa fa-caret-right"></i> @if ( Auth::User()->language == 1 )  অন্যান্য এক্সপেন্স @else Other Expense @endif</a></li>
                <li><a href="{{route('rawproduct_create')}}" @if(isset($phead) && $phead=='rawproduct_create') class="active" @endif><i class="fa fa-caret-right"></i> @if ( Auth::User()->language == 1 )  রো প্রোডাক্ট ক্রিয়েট @else Raw Product Create @endif</a></li>
+               <li><a href="{{route('rawproduct_stock')}}" @if(isset($phead) && $phead=='rawproduct_stock') class="active" @endif><i class="fa fa-caret-right"></i> @if ( Auth::User()->language == 1 )  রো প্রোডাক্ট স্টক @else Raw Product Stock @endif</a></li>
             </ul>
          </li>
 
+         <li class="treeview" @if(isset($mhead) && $mhead=='raw_sale') menu-open @endif>
+            <a href="#">
+            <i class="fa fa-shopping-cart ani_icon"></i> <span>@if ( Auth::User()->language == 1 ) রো প্রোডাক্ট সেলস @else Raw Product Sales @endif</span>
+            <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+            </span>
+            </a>
+            <ul class="treeview-menu" @if(isset($mhead) && $mhead=='raw_sale') style="display: block;" @endif>
+               <li><a href="{{route('raw_salecreate')}}" @if(isset($phead) && $phead=='raw_salecreate') class="active" @endif><i class="fa fa-caret-right"></i> @if ( Auth::User()->language == 1 ) নিউ সেল @else New Sale @endif</a></li>
+            </ul>
+         </li>
 
          @if(Auth::User()->master || Auth::User()->status == 007)
          <li class="treeview" @if(isset($mhead) && $mhead=='master') menu-open @endif>

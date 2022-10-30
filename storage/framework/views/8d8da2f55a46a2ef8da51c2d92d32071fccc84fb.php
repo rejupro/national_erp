@@ -39,8 +39,8 @@
 	                           <th><?php if( Auth::User()->language == 1 ): ?> নাম <?php else: ?> Name <?php endif; ?></th>
 	                           <th><?php if( Auth::User()->language == 1 ): ?> ইমেজ <?php else: ?> Image <?php endif; ?></th>
 	                           <th><?php if( Auth::User()->language == 1 ): ?> টোটাল পারচেস <?php else: ?> Total Purchase <?php endif; ?></th>
-	                           <th><?php if( Auth::User()->language == 1 ): ?> টোটাল সেল <?php else: ?> Total Sell <?php endif; ?></th>
-	                           <th><?php if( Auth::User()->language == 1 ): ?> কারেন্ট স্টক <?php else: ?> Current Stock <?php endif; ?></th>
+	                           <!-- <th><?php if( Auth::User()->language == 1 ): ?> টোটাল সেল <?php else: ?> Total Sell <?php endif; ?></th>
+	                           <th><?php if( Auth::User()->language == 1 ): ?> কারেন্ট স্টক <?php else: ?> Current Stock <?php endif; ?></th> -->
 	                           <th style="width:100px; text-align:center;"><?php if( Auth::User()->language == 1 ): ?> অ্যাকশন <?php else: ?> Action <?php endif; ?></th>
 	                         </tr>
 	                      </thead>
@@ -55,8 +55,8 @@
                                         <img src="<?php echo e(asset('public/' . $data->image)); ?>" alt="" style="max-height: 80px; max-width: 80px">
                                     </td>
                                     <td><?php echo e($data->total_stock); ?> <?php echo e($data->qty_type); ?></td>
-                                    <td><?php echo e($data->make_material); ?> <?php echo e($data->qty_type); ?></td>
-                                    <td><?php echo e($data->total_stock - $data->make_material); ?> <?php echo e($data->qty_type); ?></td>
+                                    <!-- <td><?php echo e($data->make_material); ?> <?php echo e($data->qty_type); ?></td>
+                                    <td><?php echo e($data->total_stock - $data->make_material); ?> <?php echo e($data->qty_type); ?></td> -->
                                     <td class="text-center">
 										<a class="btn btn-flat bg-purple" href="<?php echo e(route('material_stocksingle', ['id' => $data->material_id])); ?>" title="Show Details" ><i class="fa fa-eye"></i></a>
 									</td>

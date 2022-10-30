@@ -57,8 +57,17 @@ Route::get('/rawproduct/cartremove/{id}','Raw\RawProductController@rawproduct_ca
 Route::get('/rawproduct/expense_cartadd/{id}','Raw\RawProductController@expense_cartadd')->name('expense_cartadd');
 Route::get('/rawproduct/expense_cartlist','Raw\RawProductController@expense_cartlist')->name('expense_cartlist');
 Route::get('/rawproduct/expense_cartremove/{id}','Raw\RawProductController@expense_cartremove')->name('expense_cartremove');
-// In Stock
+// In Stock store
 Route::post('/rawproduct/store','Raw\RawProductController@rawproduct_store')->name('rawproduct_store');
+// Raw Material Product Stock
+Route::get('/rawproduct/stock','Raw\RawProductController@rawproduct_stock')->name('rawproduct_stock');
+Route::get('/rawproduct/stock/{batch}','Raw\RawProductController@rawproduct_stockbatch')->name('rawproduct_stockbatch');
+// Raw Product Sale
+Route::get('/rawproduct/salecreate','Raw\RawSalesController@raw_salecreate')->name('raw_salecreate');
+Route::get('/rawproduct/salecart/{id}','Raw\RawSalesController@producttocart')->name('producttocart');
+Route::get('/rawproduct/salecartdata','Raw\RawSalesController@salecartdata')->name('salecartdata');
+Route::get('/rawproduct/salecartremove/{id}','Raw\RawSalesController@salecartdataremove')->name('salecartdataremove');
+
 
 
 

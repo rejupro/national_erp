@@ -40,8 +40,8 @@
 	                           <th>@if ( Auth::User()->language == 1 ) নাম @else Name @endif</th>
 	                           <th>@if ( Auth::User()->language == 1 ) ইমেজ @else Image @endif</th>
 	                           <th>@if ( Auth::User()->language == 1 ) টোটাল পারচেস @else Total Purchase @endif</th>
-	                           <th>@if ( Auth::User()->language == 1 ) টোটাল সেল @else Total Sell @endif</th>
-	                           <th>@if ( Auth::User()->language == 1 ) কারেন্ট স্টক @else Current Stock @endif</th>
+	                           <!-- <th>@if ( Auth::User()->language == 1 ) টোটাল সেল @else Total Sell @endif</th>
+	                           <th>@if ( Auth::User()->language == 1 ) কারেন্ট স্টক @else Current Stock @endif</th> -->
 	                           <th style="width:100px; text-align:center;">@if ( Auth::User()->language == 1 ) অ্যাকশন @else Action @endif</th>
 	                         </tr>
 	                      </thead>
@@ -56,8 +56,8 @@
                                         <img src="{{asset('public/' . $data->image)}}" alt="" style="max-height: 80px; max-width: 80px">
                                     </td>
                                     <td>{{$data->total_stock}} {{$data->qty_type}}</td>
-                                    <td>{{$data->make_material}} {{$data->qty_type}}</td>
-                                    <td>{{$data->total_stock - $data->make_material}} {{$data->qty_type}}</td>
+                                    <!-- <td>{{$data->make_material}} {{$data->qty_type}}</td>
+                                    <td>{{$data->total_stock - $data->make_material}} {{$data->qty_type}}</td> -->
                                     <td class="text-center">
 										<a class="btn btn-flat bg-purple" href="{{ route('material_stocksingle', ['id' => $data->material_id]) }}" title="Show Details" ><i class="fa fa-eye"></i></a>
 									</td>

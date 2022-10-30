@@ -176,6 +176,13 @@
 		$(document).ready(function(){
 			allCartData();
 			expenseList();
+			$('#product_batch').val("");
+			$('#multiple_well').val("");
+			$('#other_expense').val("0");
+			$('#deduction_expense').val("0");
+			$('#wasted_product').val("0");
+			$('#extra_product').val("0");
+			$('#total_readyproduct').val("0");
 		})
 		// Validations
 		function given_amount($id){
@@ -257,7 +264,7 @@
 
 			var given_amount = $('#given_amount' + set_id).val();
 			var rest_amount = $('#rest_amount' + set_id).val();
-			if(rest_amount < given_amount){
+			if(parseFloat(given_amount) > parseFloat(rest_amount) ){
 				$('#given_amount' + set_id).val('0');
 				toastr.warning('Given Amount More Then Rest Amount');
 			}
@@ -374,12 +381,18 @@
                 },
                 url: "<?php echo e(route('rawproduct_store')); ?>",
                 success:function(response){
+                	allCartData();
+					expenseList();
                 	toastr.success(response.message);
-                	console.log(response.data);
+                	window.setTimeout(function () {
+                        window.location.href = "<?php echo e(route('rawproduct_create')); ?>";
+                    }, 2000);
                 },
                 error:function(error){
                     console.log(error)
-                    if(error){
+                    if(error.responseJSON.errors.product_batch){
+                        toastr.error(error.responseJSON.errors.product_batch[0]);
+                    }else{
                         toastr.error('Please Fillup All Options');
                     }
                 }

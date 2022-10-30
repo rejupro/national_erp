@@ -35,10 +35,11 @@ class RawProductController extends Controller
         $material_id = Rawmaterial::where('id', $id)->first()->id;
         $material_name = Rawmaterial::where('id', $id)->first()->name;
         $qty_type = RawmaterialStock::where('material_id', $id)->first()->qty_type;
-        $material_price = RawmaterialStockDetail::where('material_id', $id)->whereNotIn('finished', [1,5])->first()->price;
-        $stock_invoice = RawmaterialStockDetail::where('material_id', $id)->whereNotIn('finished', [1,5])->first()->stock_invoice;
+        
         $checkstock = RawmaterialStockDetail::where('material_id', $id)->where('finished', '0')->get()->count();
         if($checkstock > 0){
+            $material_price = RawmaterialStockDetail::where('material_id', $id)->whereNotIn('finished', [1,5])->first()->price;
+            $stock_invoice = RawmaterialStockDetail::where('material_id', $id)->whereNotIn('finished', [1,5])->first()->stock_invoice;
             if($qty_type === 'ton'){
                 $qty_type = 'kg';
                 $stock_qty = RawmaterialStockDetail::where('material_id', $id)->whereNotIn('finished', [1,5])->first()->quantity;
@@ -244,7 +245,33 @@ class RawProductController extends Controller
 
             ]);
         }
-        
-        
     }
+
+    // Raw Product Stock
+    public function rawproduct_stock(){
+        $stock = DB::table('raw_product_stocks')
+        ->leftjoin('products', 'raw_product_stocks.product_id', '=', 'products.id')
+        ->select('raw_product_stocks.*', 'products.name')
+        ->orderBy('id', 'DESC')
+        ->get();
+        return view('main.admin.rawmaterial.rawproduct.rawproduct_stock', compact('stock'));
+    }
+    // Raw Product Single
+    public function rawproduct_stockbatch($batch){
+        $rawmaterial = DB::table('raw_product_stock_materials')
+        ->leftjoin('rawmaterials', 'raw_product_stock_materials.material_id', '=', 'rawmaterials.id')
+        ->where('product_batch', $batch)
+        ->select('raw_product_stock_materials.*', 'rawmaterials.name')
+        ->orderBy('id', 'DESC')
+        ->get();
+        $expense = DB::table('raw_product_stock_expenses')
+        ->leftjoin('raw_othermaterials', 'raw_product_stock_expenses.expense_id', '=', 'raw_othermaterials.id')
+        ->where('product_batch', $batch)
+        ->select('raw_product_stock_expenses.*', 'raw_othermaterials.name')
+        ->orderBy('id', 'DESC')
+        ->get();
+        return view('main.admin.rawmaterial.rawproduct.rawproduct_stockbatch', compact('rawmaterial', 'expense', 'batch'));
+    }
+
+
 }

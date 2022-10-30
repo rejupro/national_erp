@@ -51,6 +51,9 @@
 	                           <th>@if ( Auth::User()->language == 1 ) গ্রান্ড টোটাল @else Grand Total @endif</th>
 	                           <th>@if ( Auth::User()->language == 1 ) তারিখ @else Date @endif</th>
 	                           <th class="text-center">@if ( Auth::User()->language == 1 ) কোয়ানটিটি @else Quantity @endif</th>
+	                           <th class="text-center">@if ( Auth::User()->language == 1 ) মেকড @else Maked @endif</th>
+	                           <th class="text-center">@if ( Auth::User()->language == 1 ) স্টক @else Stock @endif</th>
+	                           <th class="text-center">@if ( Auth::User()->language == 1 ) স্ট্যাটাস @else Status @endif</th>
 	                         </tr>
 	                      </thead>
 	                      <tbody>
@@ -73,6 +76,15 @@
 										<td>{{$data->grand_total}} bdt</td>
                                         <td>{{$data->date}}</td>
                                         <td class="text-center">{{$data->quantity}} {{$qty_type}}</td>
+                                        <td class="text-center">{{$data->maked_quantity}} {{$qty_type}}</td>
+                                        <td class="text-center">{{$data->quantity - $data->maked_quantity}} {{$qty_type}}</td>
+                                        <td class="text-center">
+                                        	@if($data->finished == 1)
+                                        	<span class="btn btn-warning">Stock Out</span>
+                                        	@else
+                                        	<span class="btn btn-success">Available</span>
+                                        	@endif
+                                        </td>
                                     </tr>
                                 @endforeach
 	                      </tbody>
@@ -85,7 +97,8 @@
 								<td class="text-center">{{$grand_total}} bdt</td>
                                 <td colspan="" style="text-align: right;padding-right: 10px"><strong>@if ( Auth::User()->language == 1 ) সর্বমোট @else Total Quantity @endif : </strong></td>
                                 <td class="text-center"><strong>{{$total}} {{$qty_type}}</strong></td>
-                                
+                                <td></td>
+                                <td colspan="2"></td>
                             </tr>
                           </tfoot>
 	                   </table>
