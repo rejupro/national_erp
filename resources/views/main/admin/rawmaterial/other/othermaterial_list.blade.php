@@ -61,7 +61,7 @@
 									</td>
 									<td>
 									<a class="btn btn-flat bg-purple" href="{{ route('other_rawmaterialedit', ['id' => $data->id]) }}" ><i class="fa fa-edit"></i></a>
-									<a class="btn btn-flat bg-purple" onclick="return confirm('Are you sure you want to delete this item?');" href="{{route('other_rawmaterialdelete',['id' => $data->id]) }}"><i class="fa fa-trash"></i></a>
+									<!-- <a class="btn btn-flat bg-purple" onclick="return confirm('Are you sure you want to delete this item?');" href="{{route('other_rawmaterialdelete',['id' => $data->id]) }}"><i class="fa fa-trash"></i></a> -->
 									</td>
 								</tr>
 								@endforeach

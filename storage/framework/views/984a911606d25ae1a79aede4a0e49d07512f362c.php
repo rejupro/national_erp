@@ -60,7 +60,7 @@
 									</td>
 									<td>
 									<a class="btn btn-flat bg-purple" href="<?php echo e(route('other_rawmaterialedit', ['id' => $data->id])); ?>" ><i class="fa fa-edit"></i></a>
-									<a class="btn btn-flat bg-purple" onclick="return confirm('Are you sure you want to delete this item?');" href="<?php echo e(route('other_rawmaterialdelete',['id' => $data->id])); ?>"><i class="fa fa-trash"></i></a>
+									<!-- <a class="btn btn-flat bg-purple" onclick="return confirm('Are you sure you want to delete this item?');" href="<?php echo e(route('other_rawmaterialdelete',['id' => $data->id])); ?>"><i class="fa fa-trash"></i></a> -->
 									</td>
 								</tr>
 								<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

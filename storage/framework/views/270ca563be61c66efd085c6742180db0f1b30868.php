@@ -382,6 +382,7 @@
             </a>
             <ul class="treeview-menu" <?php if(isset($mhead) && $mhead=='raw_sale'): ?> style="display: block;" <?php endif; ?>>
                <li><a href="<?php echo e(route('raw_salecreate')); ?>" <?php if(isset($phead) && $phead=='raw_salecreate'): ?> class="active" <?php endif; ?>><i class="fa fa-caret-right"></i> <?php if( Auth::User()->language == 1 ): ?> নিউ সেল <?php else: ?> New Sale <?php endif; ?></a></li>
+               <li><a href="<?php echo e(route('raw_allsale')); ?>" <?php if(isset($phead) && $phead=='raw_saleall'): ?> class="active" <?php endif; ?>><i class="fa fa-caret-right"></i> <?php if( Auth::User()->language == 1 ): ?> অল সেল <?php else: ?> All Sale <?php endif; ?></a></li>
             </ul>
          </li>
 

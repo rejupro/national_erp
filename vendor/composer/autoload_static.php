@@ -628,6 +628,8 @@ class ComposerStaticInit014e4f521663b391548311358a135aed
         'App\\RawOthermatCart' => __DIR__ . '/../..' . '/app/RawOthermatCart.php',
         'App\\RawOthermaterial' => __DIR__ . '/../..' . '/app/RawOthermaterial.php',
         'App\\RawProductCart' => __DIR__ . '/../..' . '/app/RawProductCart.php',
+        'App\\RawProductSale' => __DIR__ . '/../..' . '/app/RawProductSale.php',
+        'App\\RawProductSaleDet' => __DIR__ . '/../..' . '/app/RawProductSaleDet.php',
         'App\\RawProductStock' => __DIR__ . '/../..' . '/app/RawProductStock.php',
         'App\\RawProductStockExpense' => __DIR__ . '/../..' . '/app/RawProductStockExpense.php',
         'App\\RawProductStockMaterial' => __DIR__ . '/../..' . '/app/RawProductStockMaterial.php',

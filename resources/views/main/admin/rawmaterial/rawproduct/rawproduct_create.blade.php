@@ -390,7 +390,6 @@
                     }, 2000);
                 },
                 error:function(error){
-                    console.log(error)
                     if(error.responseJSON.errors.product_batch){
                         toastr.error(error.responseJSON.errors.product_batch[0]);
                     }else{

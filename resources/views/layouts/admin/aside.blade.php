@@ -382,6 +382,7 @@
             </a>
             <ul class="treeview-menu" @if(isset($mhead) && $mhead=='raw_sale') style="display: block;" @endif>
                <li><a href="{{route('raw_salecreate')}}" @if(isset($phead) && $phead=='raw_salecreate') class="active" @endif><i class="fa fa-caret-right"></i> @if ( Auth::User()->language == 1 ) নিউ সেল @else New Sale @endif</a></li>
+               <li><a href="{{route('raw_allsale')}}" @if(isset($phead) && $phead=='raw_saleall') class="active" @endif><i class="fa fa-caret-right"></i> @if ( Auth::User()->language == 1 ) অল সেল @else All Sale @endif</a></li>
             </ul>
          </li>
 

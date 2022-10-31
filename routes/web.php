@@ -67,7 +67,11 @@ Route::get('/rawproduct/salecreate','Raw\RawSalesController@raw_salecreate')->na
 Route::get('/rawproduct/salecart/{id}','Raw\RawSalesController@producttocart')->name('producttocart');
 Route::get('/rawproduct/salecartdata','Raw\RawSalesController@salecartdata')->name('salecartdata');
 Route::get('/rawproduct/salecartremove/{id}','Raw\RawSalesController@salecartdataremove')->name('salecartdataremove');
-
+Route::get('/rawproduct/batch_stock/{batch}','Raw\RawSalesController@batch_stock')->name('batch_stock');
+Route::post('/rawproduct/salestore','Raw\RawSalesController@rawproduct_salestore')->name('rawproduct_salestore');
+// All sales
+Route::get('/rawproduct/allsale','Raw\RawSalesController@raw_allsale')->name('raw_allsale');
+Route::get('/rawproduct/allsale/{id}','Raw\RawSalesController@raw_salesingle')->name('raw_salesingle');
 
 
 

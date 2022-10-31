@@ -190,6 +190,8 @@ return array(
     'App\\RawOthermatCart' => $baseDir . '/app/RawOthermatCart.php',
     'App\\RawOthermaterial' => $baseDir . '/app/RawOthermaterial.php',
     'App\\RawProductCart' => $baseDir . '/app/RawProductCart.php',
+    'App\\RawProductSale' => $baseDir . '/app/RawProductSale.php',
+    'App\\RawProductSaleDet' => $baseDir . '/app/RawProductSaleDet.php',
     'App\\RawProductStock' => $baseDir . '/app/RawProductStock.php',
     'App\\RawProductStockExpense' => $baseDir . '/app/RawProductStockExpense.php',
     'App\\RawProductStockMaterial' => $baseDir . '/app/RawProductStockMaterial.php',
