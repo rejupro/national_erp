@@ -1,9 +1,8 @@
-@extends("layouts/admin/main")
-@section("content")
-@php
+<?php $__env->startSection("content"); ?>
+<?php
  $mhead='raw_material';
  $phead='rawproduct_create';
-@endphp
+?>
 	<style>
 		
 		.packate_weight{
@@ -12,10 +11,10 @@
 
 	</style>
     <section class="content-header">
-	    <h1>@if ( Auth::User()->language == 1 ) প্রোডাক্ট ফরমুলেসন  @else Product Formulation @endif</h1>
+	    <h1><?php if( Auth::User()->language == 1 ): ?> প্রোডাক্ট ফরমুলেসন  <?php else: ?> Product Formulation <?php endif; ?></h1>
 	    <ol class="breadcrumb">
-	        <li><a href="{{route('home')}}"><i class="fa fa-dashboard"></i>@if ( Auth::User()->language == 1 ) ড্যাসবোর্ড @else Dashboard @endif</a></li>
-	        <li class=""><a href="">@if ( Auth::User()->language == 1 ) প্রোডাক্ট ফরমুলেসন  @else Product Formulation @endif</a></li>
+	        <li><a href="<?php echo e(route('home')); ?>"><i class="fa fa-dashboard"></i><?php if( Auth::User()->language == 1 ): ?> ড্যাসবোর্ড <?php else: ?> Dashboard <?php endif; ?></a></li>
+	        <li class=""><a href=""><?php if( Auth::User()->language == 1 ): ?> প্রোডাক্ট ফরমুলেসন  <?php else: ?> Product Formulation <?php endif; ?></a></li>
 	     </ol>
     </section>
     <!-- Main content -->
@@ -24,19 +23,19 @@
 			<div class="col-md-12">
 				<div class="box box-solid">
 					<div class="box-header with-border">
-					<h3 class="box-title">@if ( Auth::User()->language == 1 ) প্রোডাক্ট ফরমুলেসন  @else Product Formulation @endif</h3>
+					<h3 class="box-title"><?php if( Auth::User()->language == 1 ): ?> প্রোডাক্ট ফরমুলেসন  <?php else: ?> Product Formulation <?php endif; ?></h3>
 					</div>
 					<div class="box-body">
-					{{-- Error message here    --}}
-					@if ($errors->any())
+					
+					<?php if($errors->any()): ?>
 					<div class="alert alert-danger">
 						<ul>
-							@foreach ($errors->all() as $error)
-							<li>{{ $error }}</li>
-							@endforeach
+							<?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+							<li><?php echo e($error); ?></li>
+							<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 						</ul>
 					</div>
-					@endif
+					<?php endif; ?>
 					<div class="col-md-12 table-responsive">
 						<div class="row" style="margin-bottom: 15px;">
 							<div class="col-md-4">
@@ -47,18 +46,18 @@
 								<label>Product Name</label>
 								<select class="form-control select2 select2-hidden-accessible" name="supplier" id="product" tabindex="-1" aria-hidden="true" required>
 									<option value="" selected="" disabled="">Select Option</option>
-									@foreach($products as $product)
-									<option value="{{$product->id}}">{{$product->name}}</option>
-									@endforeach
+									<?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+									<option value="<?php echo e($product->id); ?>"><?php echo e($product->name); ?></option>
+									<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 								</select>
 							</div>
 							<div class="col-md-4">
 								<label>Material Name</label>
 								<select class="form-control select2 select2-hidden-accessible" name="material_onchange" id="material_onchange" onchange="material_onchange()" tabindex="-1" aria-hidden="true" required>
 									<option value="" selected="" disabled="">Select Option</option>
-									@foreach($rawmaterial as $single)
-									<option value="{{$single->material_id}}">{{$single->name}}</option>
-									@endforeach
+									<?php $__currentLoopData = $rawmaterial; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $single): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+									<option value="<?php echo e($single->material_id); ?>"><?php echo e($single->name); ?></option>
+									<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 								</select>
 							</div>
 						</div>
@@ -96,9 +95,9 @@
 										<label><strong>Select Expense(Packaging)</strong></label>
 										<select class="form-control select2 select2-hidden-accessible" name="expense_onchange" id="expense_onchange" onchange="expense_onchange()">
 											<option value="" selected="" disabled>Select Expense</option>
-											@foreach($expense as $single)
-											<option value="{{$single->id}}">{{$single->name}}</option>
-											@endforeach
+											<?php $__currentLoopData = $expense; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $single): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+											<option value="<?php echo e($single->id); ?>"><?php echo e($single->name); ?></option>
+											<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 										</select>
 									</td>
 									<td></td>
@@ -161,7 +160,7 @@
 	                   <div class="col-md-12 table-responsive">
 	                      <div class="col-md-8"></div>
 	                      <div class="col-md-4 text-right" >
-	                         <button href="#" class="btn btn-flat bg-purple" onClick="submitRawProduct('event')">@if ( Auth::User()->language == 1 ) এড ম্যাটেরিয়াল @else Add Material @endif</button>
+	                         <button href="#" class="btn btn-flat bg-purple" onClick="submitRawProduct('event')"><?php if( Auth::User()->language == 1 ): ?> এড ম্যাটেরিয়াল <?php else: ?> Add Material <?php endif; ?></button>
 	                      </div>
 	                   </div>
 	                </div>
@@ -380,13 +379,13 @@
                 	expense_qty:expense_qty,
                 	expense_total:expense_total,
                 },
-                url: "{{route('rawproduct_store')}}",
+                url: "<?php echo e(route('rawproduct_store')); ?>",
                 success:function(response){
                 	allCartData();
 					expenseList();
                 	toastr.success(response.message);
                 	window.setTimeout(function () {
-                        window.location.href = "{{ route('rawproduct_create') }}";
+                        window.location.href = "<?php echo e(route('rawproduct_create')); ?>";
                     }, 2000);
                 },
                 error:function(error){
@@ -401,7 +400,7 @@
 		// Add to cart
 		function material_onchange(){
 			var material_id = $('#material_onchange').val();
-            var url = "{{ route('rawproduct_cart', ":id") }}";
+            var url = "<?php echo e(route('rawproduct_cart', ":id")); ?>";
             url = url.replace(':id', material_id);
 			$.ajax({
                 type: 'GET',
@@ -425,7 +424,7 @@
         function allCartData(){
             $.ajax({
                 type: 'GET',
-                url: "{{route('rawproduct_cartlist')}}",
+                url: "<?php echo e(route('rawproduct_cartlist')); ?>",
                 dataType: 'json',
                 success:function(response){
                 	if(response.cartcount > 1){
@@ -484,7 +483,7 @@
         // Remove Data
         function remove_from_cart(id){
             var cpostid = id;
-            var url = "{{ route('rawproduct_cartremove', ":id") }}";
+            var url = "<?php echo e(route('rawproduct_cartremove', ":id")); ?>";
             url = url.replace(':id', cpostid);
             $.ajax({
                 type: 'GET',
@@ -499,7 +498,7 @@
         // Expense
         function expense_onchange(){
         	var expense_id = $('#expense_onchange').val();
-            var url = "{{ route('expense_cartadd', ":id") }}";
+            var url = "<?php echo e(route('expense_cartadd', ":id")); ?>";
             url = url.replace(':id', expense_id);
 			$.ajax({
                 type: 'GET',
@@ -520,7 +519,7 @@
         function expenseList(){
         	$.ajax({
 	            type: 'GET',
-	            url: "{{route('expense_cartlist')}}",
+	            url: "<?php echo e(route('expense_cartlist')); ?>",
 	            dataType: 'json',
 	            success:function(response){
 	                console.log(response)
@@ -555,7 +554,7 @@
         // Remove Expense
         function expenseRemove(id){
             var cpostid = id;
-            var url = "{{ route('expense_cartremove', ":id") }}";
+            var url = "<?php echo e(route('expense_cartremove', ":id")); ?>";
             url = url.replace(':id', cpostid);
             $.ajax({
                 type: 'GET',
@@ -569,7 +568,7 @@
 
 	</script> 
 
-@endsection
+<?php $__env->stopSection(); ?>
 
 
 
@@ -577,3 +576,5 @@
 
 
 
+
+<?php echo $__env->make("layouts/admin/main", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\national2\resources\views/main/admin/rawmaterial/rawproduct/rawproduct_create.blade.php ENDPATH**/ ?>

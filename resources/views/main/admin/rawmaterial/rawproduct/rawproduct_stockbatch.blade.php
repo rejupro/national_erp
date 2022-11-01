@@ -1,15 +1,15 @@
 @extends("layouts/admin/main")
 @section("content")
 @php
- $mhead='raw_material';
+ $mhead='product';
  $phead='rawproduct_stock';
 @endphp
 
     <section class="content-header">
-	    <h1>@if ( Auth::User()->language == 1 ) ম্যাটেরিয়াল প্রোডাক্ট স্টক  @else Material Product Stock @endif</h1>
+	    <h1>@if ( Auth::User()->language == 1 )  প্রোডাক্ট স্টক  @else  Product Stock @endif</h1>
 	    <ol class="breadcrumb">
 	        <li><a href="{{route('home')}}"><i class="fa fa-dashboard"></i>@if ( Auth::User()->language == 1 ) ড্যাসবোর্ড @else Dashboard @endif</a></li>
-	        <li class=""><a href="">@if ( Auth::User()->language == 1 ) ম্যাটেরিয়াল প্রোডাক্ট স্টক  @else Material Product Stock @endif</a></li>
+	        <li class=""><a href="">@if ( Auth::User()->language == 1 )  প্রোডাক্ট স্টক  @else  Product Stock @endif</a></li>
 	     </ol>
     </section>
     <!-- Main content -->

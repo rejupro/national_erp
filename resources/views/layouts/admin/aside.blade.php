@@ -225,7 +225,7 @@
          </li>
          @endif
          @if(Auth::User()->purchase || Auth::User()->status == 007)
-         <li class="treeview" @if(isset($mhead) && $mhead=='purchase') menu-open @endif>
+         <!-- <li class="treeview" @if(isset($mhead) && $mhead=='purchase') menu-open @endif>
             <a href="#">
             <i class="fa fa-shopping-basket ani_icon"></i> <span>@if ( Auth::User()->language == 1 ) পারচেস @else Purchase @endif</span>
             <span class="pull-right-container">
@@ -240,10 +240,10 @@
                <li><a href="{{ route('purchase-create-page') }}" @if(isset($phead) && $phead=='puric') class="active" @endif><i class="fa fa-caret-right"></i> @if ( Auth::User()->language == 1 ) পারচেস ইনভয়েস ক্রিয়েট @else Purchase Invoice Create @endif</a></li>
                @endif
             </ul>
-         </li>
+         </li> -->
          @endif
          @if(Auth::User()->material_use || Auth::User()->status == 007)
-         <li class="treeview" @if(isset($mhead) && $mhead=='material') menu-open @endif>
+         <!-- <li class="treeview" @if(isset($mhead) && $mhead=='material') menu-open @endif>
             <a href="#">
             <i class="fa fa-shopping-bag ani_icon"></i> <span>@if ( Auth::User()->language == 1 ) মেটেরিয়াল ইউস ও সেলস @else Materials Use &amp; Sales @endif</span>
             <span class="pull-right-container">
@@ -264,10 +264,10 @@
                <li><a href="{{ route('sales-create-page') }}" @if(isset($phead) && $phead=='sic') class="active" @endif><i class="fa fa-caret-right"></i> @if ( Auth::User()->language == 1 ) সেলস ইনভয়েস ক্রিয়েট @else Sales Invoice Create @endif</a></li>
                @endif
             </ul>
-         </li>
+         </li> -->
          @endif
          @if(Auth::User()->inventory || Auth::User()->status == 007)
-         <li class="treeview" @if(isset($mhead) && $mhead=='inventory') menu-open @endif>
+         <!-- <li class="treeview" @if(isset($mhead) && $mhead=='inventory') menu-open @endif>
             <a href="#">
             <i class="fa fa-barcode ani_icon"></i> <span>@if ( Auth::User()->language == 1 ) ইনভেন্টরি @else Inventory @endif</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
             <ul class="treeview-menu" @if(isset($mhead) && $mhead=='inventory') style="display: block;" @endif>
@@ -292,7 +292,7 @@
                @endif
                {{-- <li><a href="#"><i class="fa fa-caret-right"></i> Product Disposal</a></li> --}}
             </ul>
-         </li>
+         </li> -->
          @endif
          @if(Auth::User()->client || Auth::User()->status == 007)
          <li class="treeview" @if(isset($mhead) && $mhead=='client') menu-open @endif>
@@ -327,7 +327,7 @@
          @if(Auth::User()->product || Auth::User()->status == 007)
          <li class="treeview" @if(isset($mhead) && $mhead=='product') menu-open @endif>
             <a href="#">
-            <i class="fa fa-shopping-cart ani_icon"></i> <span>@if ( Auth::User()->language == 1 ) প্রোডাক্ট সেটাপ @else Product Setup @endif</span>
+            <i class="fa fa-shopping-cart ani_icon"></i> <span>@if ( Auth::User()->language == 1 ) প্রোডাক্টস @else Products @endif</span>
             <span class="pull-right-container">
             <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -350,6 +350,7 @@
                @endif
                @if($add_new_product == 'add_new_product' || Auth::User()->status == 007)
                <li><a href="{{route('product-create-route')}}" @if(isset($phead) && $phead=='proc') class="active" @endif><i class="fa fa-caret-right"></i> @if ( Auth::User()->language == 1 ) এড নিউ প্রোডাক্ট @else Add New Product @endif</a></li>
+               <li><a href="{{route('rawproduct_stock')}}" @if(isset($phead) && $phead=='rawproduct_stock') class="active" @endif><i class="fa fa-caret-right"></i> @if ( Auth::User()->language == 1 )  প্রোডাক্ট স্টক @else Product Stock @endif</a></li>
                @endif
             </ul>
          </li>
@@ -368,21 +369,20 @@
                <li><a href="{{route('rawmaterial-purchase')}}" @if(isset($phead) && $phead=='material_purchase') class="active" @endif><i class="fa fa-caret-right"></i> @if ( Auth::User()->language == 1 )  ম্যাটেরিয়াল পারচেস @else Material Purchase @endif</a></li>
                <li><a href="{{route('material_stock')}}" @if(isset($phead) && $phead=='raw_materialstock') class="active" @endif><i class="fa fa-caret-right"></i> @if ( Auth::User()->language == 1 )  ম্যাটেরিয়াল স্টক @else Material Stock @endif</a></li>
                <li><a href="{{route('other_rawmaterial')}}" @if(isset($phead) && $phead=='other_materiallist') class="active" @endif><i class="fa fa-caret-right"></i> @if ( Auth::User()->language == 1 )  অন্যান্য এক্সপেন্স @else Other Expense @endif</a></li>
-               <li><a href="{{route('rawproduct_create')}}" @if(isset($phead) && $phead=='rawproduct_create') class="active" @endif><i class="fa fa-caret-right"></i> @if ( Auth::User()->language == 1 )  রো প্রোডাক্ট ক্রিয়েট @else Raw Product Create @endif</a></li>
-               <li><a href="{{route('rawproduct_stock')}}" @if(isset($phead) && $phead=='rawproduct_stock') class="active" @endif><i class="fa fa-caret-right"></i> @if ( Auth::User()->language == 1 )  রো প্রোডাক্ট স্টক @else Raw Product Stock @endif</a></li>
+               <li><a href="{{route('rawproduct_create')}}" @if(isset($phead) && $phead=='rawproduct_create') class="active" @endif><i class="fa fa-caret-right"></i> @if ( Auth::User()->language == 1 )  প্রোডাক্ট ফরমুলেসন @else Product Formulation @endif</a></li>
             </ul>
          </li>
 
          <li class="treeview" @if(isset($mhead) && $mhead=='raw_sale') menu-open @endif>
             <a href="#">
-            <i class="fa fa-shopping-cart ani_icon"></i> <span>@if ( Auth::User()->language == 1 ) রো প্রোডাক্ট সেলস @else Raw Product Sales @endif</span>
+            <i class="fa fa-shopping-cart ani_icon"></i> <span>@if ( Auth::User()->language == 1 ) প্রোডাক্ট সেল @else Product Sell @endif</span>
             <span class="pull-right-container">
             <i class="fa fa-angle-left pull-right"></i>
             </span>
             </a>
             <ul class="treeview-menu" @if(isset($mhead) && $mhead=='raw_sale') style="display: block;" @endif>
-               <li><a href="{{route('raw_salecreate')}}" @if(isset($phead) && $phead=='raw_salecreate') class="active" @endif><i class="fa fa-caret-right"></i> @if ( Auth::User()->language == 1 ) নিউ সেল @else New Sale @endif</a></li>
-               <li><a href="{{route('raw_allsale')}}" @if(isset($phead) && $phead=='raw_saleall') class="active" @endif><i class="fa fa-caret-right"></i> @if ( Auth::User()->language == 1 ) অল সেল @else All Sale @endif</a></li>
+               <li><a href="{{route('raw_salecreate')}}" @if(isset($phead) && $phead=='raw_salecreate') class="active" @endif><i class="fa fa-caret-right"></i> @if ( Auth::User()->language == 1 ) নিউ সেল @else New Sell @endif</a></li>
+               <li><a href="{{route('raw_allsale')}}" @if(isset($phead) && $phead=='raw_saleall') class="active" @endif><i class="fa fa-caret-right"></i> @if ( Auth::User()->language == 1 ) অল সেল @else All Sell @endif</a></li>
             </ul>
          </li>
 

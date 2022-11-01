@@ -1,9 +1,8 @@
-@extends("layouts/admin/main")
-@section("content")
-@php
+<?php $__env->startSection("content"); ?>
+<?php
  $mhead='raw_sale';
  $phead='raw_salecreate';
-@endphp
+?>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css"/>
     <style>
         .product-content{
@@ -11,10 +10,10 @@
         }
     </style>
     <section class="content-header">
-	    <h1>@if ( Auth::User()->language == 1 ) প্রোডাক্ট সেলস @else Product Sales @endif</h1>
+	    <h1><?php if( Auth::User()->language == 1 ): ?> প্রোডাক্ট সেলস <?php else: ?> Product Sales <?php endif; ?></h1>
 	    <ol class="breadcrumb">
-	        <li><a href="{{route('home')}}"><i class="fa fa-dashboard"></i>@if ( Auth::User()->language == 1 ) ড্যাসবোর্ড @else Dashboard @endif</a></li>
-	        <li class=""><a href="">@if ( Auth::User()->language == 1 ) প্রোডাক্ট সেলস @else Product Sales @endif</a></li>
+	        <li><a href="<?php echo e(route('home')); ?>"><i class="fa fa-dashboard"></i><?php if( Auth::User()->language == 1 ): ?> ড্যাসবোর্ড <?php else: ?> Dashboard <?php endif; ?></a></li>
+	        <li class=""><a href=""><?php if( Auth::User()->language == 1 ): ?> প্রোডাক্ট সেলস <?php else: ?> Product Sales <?php endif; ?></a></li>
 	     </ol>
     </section>
     <!-- Main content -->
@@ -23,34 +22,34 @@
 			<div class="col-md-6">
 				<div class="box box-solid">
 					<div class="box-header with-border">
-					    <h3 class="box-title">@if ( Auth::User()->language == 1 ) প্রোডাক্ট লিস্ট @else Product List @endif</h3>
+					    <h3 class="box-title"><?php if( Auth::User()->language == 1 ): ?> প্রোডাক্ট লিস্ট <?php else: ?> Product List <?php endif; ?></h3>
 					</div>
 					<div class="box-body">
-                        {{-- Error message here    --}}
-                        @if ($errors->any())
+                        
+                        <?php if($errors->any()): ?>
                         <div class="alert alert-danger">
                             <ul>
-                                @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                                @endforeach
+                                <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <li><?php echo e($error); ?></li>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </ul>
                         </div>
-                        @endif
+                        <?php endif; ?>
                         <div class="col-md-12 table-responsive" style="max-height: 500px; overflow-y:scroll">
-                            @foreach($products as $single)
-                            <div class="product-content product-select puritem" onclick="catmethod({{$single->id}})">
-                                <img src="{{asset($single->avater)}}" class="product-image">
+                            <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $single): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <div class="product-content product-select puritem" onclick="catmethod(<?php echo e($single->id); ?>)">
+                                <img src="<?php echo e(asset($single->avater)); ?>" class="product-image">
                                 <div class="info">
                                     <h3>Pcs</h3>
                                 </div>
                                 <div class="product-detail">
-                                    <b class="name">{{$single->name}}</b>
+                                    <b class="name"><?php echo e($single->name); ?></b>
                                 </div><div class="product-code">
-                                    <b class="sku">{{$single->code}}</b>
+                                    <b class="sku"><?php echo e($single->code); ?></b>
                                     <b class="indexg" style="display:none;"></b>
                                 </div>
                             </div>   
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </div>
                     </div>
 
@@ -60,7 +59,7 @@
             <div class="col-md-6">
 				<div class="box box-solid">
 					<div class="box-header with-border">
-					<h3 class="box-title">@if ( Auth::User()->language == 1 ) কার্ট লিস্ট @else Cart List @endif</h3>
+					<h3 class="box-title"><?php if( Auth::User()->language == 1 ): ?> কার্ট লিস্ট <?php else: ?> Cart List <?php endif; ?></h3>
 					</div>
 					<div class="box-body">
                         <label>Select Customers</label>
@@ -69,24 +68,24 @@
                                 <span class="input-group-addon"><span class="fa fa-user-o"></span></span>    
                                 <select class="form-control select2 select2-hidden-accessible" name="supplier" id="supplier" tabindex="-1" aria-hidden="true" required>
                                     <option value="" selected="">-Select-</option> 
-                                    @foreach($customer as $single)
-                                    <option value="{{$single->id}}">{{$single->name}}</option>
-                                    @endforeach
+                                    <?php $__currentLoopData = $customer; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $single): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <option value="<?php echo e($single->id); ?>"><?php echo e($single->name); ?></option>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </select>
-                                {{-- <span class="input-group-addon"><a id="addsup"><span class="fa fa-plus"></span></a></span>  --}}  
+                                  
                             </div>    
                         </div> 
                         <table class="table table-bordered table-striped" style="margin-bottom: 0;">
                             <thead>
                                 <tr style="display:none"><input type="hidden" name="count" id="count" value=""></tr>
                                 <tr>
-                                    <th width="30px">@if ( Auth::User()->language == 1 ) সিরিয়াল @else SN @endif</th>
-                                    <th width="150px">@if ( Auth::User()->language == 1 ) আইটেম নেম @else Item Name @endif</th>
-                                    <th width="60px">@if ( Auth::User()->language == 1 ) ব্যাচ @else Batch @endif</th>
-                                    <th width="60px">@if ( Auth::User()->language == 1 ) স্টক @else Stock @endif</th>
-                                    <th width="70px">@if ( Auth::User()->language == 1 ) প্রাইস @else Price @endif</th>
-                                    <th width="70px">@if ( Auth::User()->language == 1 ) কোয়ানটিটি @else Quantity @endif</th>
-                                    <th width="70px">@if ( Auth::User()->language == 1 ) টোটাল @else Total @endif</th>
+                                    <th width="30px"><?php if( Auth::User()->language == 1 ): ?> সিরিয়াল <?php else: ?> SN <?php endif; ?></th>
+                                    <th width="150px"><?php if( Auth::User()->language == 1 ): ?> আইটেম নেম <?php else: ?> Item Name <?php endif; ?></th>
+                                    <th width="60px"><?php if( Auth::User()->language == 1 ): ?> ব্যাচ <?php else: ?> Batch <?php endif; ?></th>
+                                    <th width="60px"><?php if( Auth::User()->language == 1 ): ?> স্টক <?php else: ?> Stock <?php endif; ?></th>
+                                    <th width="70px"><?php if( Auth::User()->language == 1 ): ?> প্রাইস <?php else: ?> Price <?php endif; ?></th>
+                                    <th width="70px"><?php if( Auth::User()->language == 1 ): ?> কোয়ানটিটি <?php else: ?> Quantity <?php endif; ?></th>
+                                    <th width="70px"><?php if( Auth::User()->language == 1 ): ?> টোটাল <?php else: ?> Total <?php endif; ?></th>
                                     <th class="text-center" width="25px"><a class="empty" style="cursor: pointer;"><i class="fa fa-trash"></i></a></th>    
                                 </tr>
                             </thead>
@@ -220,14 +219,14 @@
                    frac_dis:frac_dis,
                    grand_total:grand_total,
                 },
-                url: "{{route('rawproduct_salestore')}}",
+                url: "<?php echo e(route('rawproduct_salestore')); ?>",
                 success:function(response){
                     allCartData();
                     if(response){
                         toastr.success(response.message);
                     }
                     window.setTimeout(function () {
-                        window.location.href = "{{ route('raw_salecreate') }}";
+                        window.location.href = "<?php echo e(route('raw_salecreate')); ?>";
                     }, 2000);
                 },
                 error:function(error){
@@ -244,7 +243,7 @@
         // Add to Cart
         function catmethod(id){
             var cpostid = id;
-            var url = "{{ route('producttocart', ":id") }}";
+            var url = "<?php echo e(route('producttocart', ":id")); ?>";
             url = url.replace(':id', cpostid);
             $.ajax({
                 type: 'GET',
@@ -264,7 +263,7 @@
         function allCartData(){
             $.ajax({
                 type: 'GET',
-                url: "{{route('salecartdata')}}",
+                url: "<?php echo e(route('salecartdata')); ?>",
                 dataType: 'json',
                 success:function(response){
                     $('#count').val(response.count);
@@ -309,7 +308,7 @@
         // Remove Data
         function remove_from_cart(id){
             var cpostid = id;
-            var url = "{{ route('salecartdataremove', ":id") }}";
+            var url = "<?php echo e(route('salecartdataremove', ":id")); ?>";
             url = url.replace(':id', cpostid);
             $.ajax({
                 type: 'GET',
@@ -319,7 +318,7 @@
                     allCartData();
                     if(response.count < 1){
                         window.setTimeout(function () {
-                            window.location.href = "{{ route('raw_salecreate') }}";
+                            window.location.href = "<?php echo e(route('raw_salecreate')); ?>";
                         }, 1500);
                     }
                 }
@@ -330,7 +329,7 @@
             var set_id = $id;
             $('#quantity' + set_id).show();
             var product_batch = $('#product_batch' + set_id).val();
-            var url = "{{ route('batch_stock', ":id") }}";
+            var url = "<?php echo e(route('batch_stock', ":id")); ?>";
             url = url.replace(':id', product_batch);
             $.ajax({
                 type: 'GET',
@@ -408,7 +407,7 @@
 
     </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
 
 
@@ -416,3 +415,5 @@
 
 
 
+
+<?php echo $__env->make("layouts/admin/main", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\national2\resources\views/main/admin/rawmaterial/sales/sale_create.blade.php ENDPATH**/ ?>

@@ -15,6 +15,7 @@ use App\Supplier;
 use App\RawProductCart;
 use App\RawProductSale;
 use App\RawProductSaleDet;
+use App\Customer;
 use DB;
 use Auth;
 
@@ -22,8 +23,8 @@ class RawSalesController extends Controller
 {
     public function raw_salecreate(){
         $products = Product::latest()->get();
-        $supplier = Supplier::where('status', '1')->get();
-        return view('main.admin.rawmaterial.sales.sale_create', compact('supplier', 'products'));
+        $customer = Customer::where('status', '1')->get();
+        return view('main.admin.rawmaterial.sales.sale_create', compact('customer', 'products'));
     }
     // Material Add to Cart
     public function producttocart($id){
@@ -187,8 +188,8 @@ class RawSalesController extends Controller
     // All Sales
     public function raw_allsale(){
         $sales = DB::table('raw_product_sales')
-        ->leftjoin('suppliers', 'raw_product_sales.supplier_id', '=', 'suppliers.id')
-        ->select('raw_product_sales.*', 'suppliers.name as supplier_name')
+        ->leftjoin('customers', 'raw_product_sales.supplier_id', '=', 'customers.id')
+        ->select('raw_product_sales.*', 'customers.name as supplier_name')
         ->orderBy('id', 'DESC')
         ->get();
         return view('main.admin.rawmaterial.sales.all_sale', compact('sales'));
