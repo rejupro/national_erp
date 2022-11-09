@@ -225,7 +225,7 @@
          </li>
          <?php endif; ?>
          <?php if(Auth::User()->purchase || Auth::User()->status == 007): ?>
-         <li class="treeview" <?php if(isset($mhead) && $mhead=='purchase'): ?> menu-open <?php endif; ?>>
+         <!-- <li class="treeview" <?php if(isset($mhead) && $mhead=='purchase'): ?> menu-open <?php endif; ?>>
             <a href="#">
             <i class="fa fa-shopping-basket ani_icon"></i> <span><?php if( Auth::User()->language == 1 ): ?> পারচেস <?php else: ?> Purchase <?php endif; ?></span>
             <span class="pull-right-container">
@@ -240,10 +240,10 @@
                <li><a href="<?php echo e(route('purchase-create-page')); ?>" <?php if(isset($phead) && $phead=='puric'): ?> class="active" <?php endif; ?>><i class="fa fa-caret-right"></i> <?php if( Auth::User()->language == 1 ): ?> পারচেস ইনভয়েস ক্রিয়েট <?php else: ?> Purchase Invoice Create <?php endif; ?></a></li>
                <?php endif; ?>
             </ul>
-         </li>
+         </li> -->
          <?php endif; ?>
          <?php if(Auth::User()->material_use || Auth::User()->status == 007): ?>
-         <li class="treeview" <?php if(isset($mhead) && $mhead=='material'): ?> menu-open <?php endif; ?>>
+         <!-- <li class="treeview" <?php if(isset($mhead) && $mhead=='material'): ?> menu-open <?php endif; ?>>
             <a href="#">
             <i class="fa fa-shopping-bag ani_icon"></i> <span><?php if( Auth::User()->language == 1 ): ?> মেটেরিয়াল ইউস ও সেলস <?php else: ?> Materials Use &amp; Sales <?php endif; ?></span>
             <span class="pull-right-container">
@@ -264,10 +264,10 @@
                <li><a href="<?php echo e(route('sales-create-page')); ?>" <?php if(isset($phead) && $phead=='sic'): ?> class="active" <?php endif; ?>><i class="fa fa-caret-right"></i> <?php if( Auth::User()->language == 1 ): ?> সেলস ইনভয়েস ক্রিয়েট <?php else: ?> Sales Invoice Create <?php endif; ?></a></li>
                <?php endif; ?>
             </ul>
-         </li>
+         </li> -->
          <?php endif; ?>
          <?php if(Auth::User()->inventory || Auth::User()->status == 007): ?>
-         <li class="treeview" <?php if(isset($mhead) && $mhead=='inventory'): ?> menu-open <?php endif; ?>>
+         <!-- <li class="treeview" <?php if(isset($mhead) && $mhead=='inventory'): ?> menu-open <?php endif; ?>>
             <a href="#">
             <i class="fa fa-barcode ani_icon"></i> <span><?php if( Auth::User()->language == 1 ): ?> ইনভেন্টরি <?php else: ?> Inventory <?php endif; ?></span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
             <ul class="treeview-menu" <?php if(isset($mhead) && $mhead=='inventory'): ?> style="display: block;" <?php endif; ?>>
@@ -292,7 +292,7 @@
                <?php endif; ?>
                
             </ul>
-         </li>
+         </li> -->
          <?php endif; ?>
          <?php if(Auth::User()->client || Auth::User()->status == 007): ?>
          <li class="treeview" <?php if(isset($mhead) && $mhead=='client'): ?> menu-open <?php endif; ?>>
@@ -327,7 +327,7 @@
          <?php if(Auth::User()->product || Auth::User()->status == 007): ?>
          <li class="treeview" <?php if(isset($mhead) && $mhead=='product'): ?> menu-open <?php endif; ?>>
             <a href="#">
-            <i class="fa fa-shopping-cart ani_icon"></i> <span><?php if( Auth::User()->language == 1 ): ?> প্রোডাক্ট সেটাপ <?php else: ?> Product Setup <?php endif; ?></span>
+            <i class="fa fa-shopping-cart ani_icon"></i> <span><?php if( Auth::User()->language == 1 ): ?> প্রোডাক্টস <?php else: ?> Products <?php endif; ?></span>
             <span class="pull-right-container">
             <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -350,6 +350,7 @@
                <?php endif; ?>
                <?php if($add_new_product == 'add_new_product' || Auth::User()->status == 007): ?>
                <li><a href="<?php echo e(route('product-create-route')); ?>" <?php if(isset($phead) && $phead=='proc'): ?> class="active" <?php endif; ?>><i class="fa fa-caret-right"></i> <?php if( Auth::User()->language == 1 ): ?> এড নিউ প্রোডাক্ট <?php else: ?> Add New Product <?php endif; ?></a></li>
+               <li><a href="<?php echo e(route('rawproduct_stock')); ?>" <?php if(isset($phead) && $phead=='rawproduct_stock'): ?> class="active" <?php endif; ?>><i class="fa fa-caret-right"></i> <?php if( Auth::User()->language == 1 ): ?>  প্রোডাক্ট স্টক <?php else: ?> Product Stock <?php endif; ?></a></li>
                <?php endif; ?>
             </ul>
          </li>
@@ -368,21 +369,20 @@
                <li><a href="<?php echo e(route('rawmaterial-purchase')); ?>" <?php if(isset($phead) && $phead=='material_purchase'): ?> class="active" <?php endif; ?>><i class="fa fa-caret-right"></i> <?php if( Auth::User()->language == 1 ): ?>  ম্যাটেরিয়াল পারচেস <?php else: ?> Material Purchase <?php endif; ?></a></li>
                <li><a href="<?php echo e(route('material_stock')); ?>" <?php if(isset($phead) && $phead=='raw_materialstock'): ?> class="active" <?php endif; ?>><i class="fa fa-caret-right"></i> <?php if( Auth::User()->language == 1 ): ?>  ম্যাটেরিয়াল স্টক <?php else: ?> Material Stock <?php endif; ?></a></li>
                <li><a href="<?php echo e(route('other_rawmaterial')); ?>" <?php if(isset($phead) && $phead=='other_materiallist'): ?> class="active" <?php endif; ?>><i class="fa fa-caret-right"></i> <?php if( Auth::User()->language == 1 ): ?>  অন্যান্য এক্সপেন্স <?php else: ?> Other Expense <?php endif; ?></a></li>
-               <li><a href="<?php echo e(route('rawproduct_create')); ?>" <?php if(isset($phead) && $phead=='rawproduct_create'): ?> class="active" <?php endif; ?>><i class="fa fa-caret-right"></i> <?php if( Auth::User()->language == 1 ): ?>  রো প্রোডাক্ট ক্রিয়েট <?php else: ?> Raw Product Create <?php endif; ?></a></li>
-               <li><a href="<?php echo e(route('rawproduct_stock')); ?>" <?php if(isset($phead) && $phead=='rawproduct_stock'): ?> class="active" <?php endif; ?>><i class="fa fa-caret-right"></i> <?php if( Auth::User()->language == 1 ): ?>  রো প্রোডাক্ট স্টক <?php else: ?> Raw Product Stock <?php endif; ?></a></li>
+               <li><a href="<?php echo e(route('rawproduct_create')); ?>" <?php if(isset($phead) && $phead=='rawproduct_create'): ?> class="active" <?php endif; ?>><i class="fa fa-caret-right"></i> <?php if( Auth::User()->language == 1 ): ?>  প্রোডাক্ট ফরমুলেসন <?php else: ?> Product Formulation <?php endif; ?></a></li>
             </ul>
          </li>
 
          <li class="treeview" <?php if(isset($mhead) && $mhead=='raw_sale'): ?> menu-open <?php endif; ?>>
             <a href="#">
-            <i class="fa fa-shopping-cart ani_icon"></i> <span><?php if( Auth::User()->language == 1 ): ?> রো প্রোডাক্ট সেলস <?php else: ?> Raw Product Sales <?php endif; ?></span>
+            <i class="fa fa-shopping-cart ani_icon"></i> <span><?php if( Auth::User()->language == 1 ): ?> প্রোডাক্ট সেল <?php else: ?> Product Sell <?php endif; ?></span>
             <span class="pull-right-container">
             <i class="fa fa-angle-left pull-right"></i>
             </span>
             </a>
             <ul class="treeview-menu" <?php if(isset($mhead) && $mhead=='raw_sale'): ?> style="display: block;" <?php endif; ?>>
-               <li><a href="<?php echo e(route('raw_salecreate')); ?>" <?php if(isset($phead) && $phead=='raw_salecreate'): ?> class="active" <?php endif; ?>><i class="fa fa-caret-right"></i> <?php if( Auth::User()->language == 1 ): ?> নিউ সেল <?php else: ?> New Sale <?php endif; ?></a></li>
-               <li><a href="<?php echo e(route('raw_allsale')); ?>" <?php if(isset($phead) && $phead=='raw_saleall'): ?> class="active" <?php endif; ?>><i class="fa fa-caret-right"></i> <?php if( Auth::User()->language == 1 ): ?> অল সেল <?php else: ?> All Sale <?php endif; ?></a></li>
+               <li><a href="<?php echo e(route('raw_salecreate')); ?>" <?php if(isset($phead) && $phead=='raw_salecreate'): ?> class="active" <?php endif; ?>><i class="fa fa-caret-right"></i> <?php if( Auth::User()->language == 1 ): ?> নিউ সেল <?php else: ?> New Sell <?php endif; ?></a></li>
+               <li><a href="<?php echo e(route('raw_allsale')); ?>" <?php if(isset($phead) && $phead=='raw_saleall'): ?> class="active" <?php endif; ?>><i class="fa fa-caret-right"></i> <?php if( Auth::User()->language == 1 ): ?> অল সেল <?php else: ?> All Sell <?php endif; ?></a></li>
             </ul>
          </li>
 

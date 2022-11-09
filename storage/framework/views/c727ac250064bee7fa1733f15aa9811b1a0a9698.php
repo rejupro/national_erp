@@ -11,10 +11,10 @@
 
 	</style>
     <section class="content-header">
-	    <h1><?php if( Auth::User()->language == 1 ): ?> রো প্রোডাক্ট ক্রিয়েট <?php else: ?> Raw Product Create <?php endif; ?></h1>
+	    <h1><?php if( Auth::User()->language == 1 ): ?> প্রোডাক্ট ফরমুলেসন  <?php else: ?> Product Formulation <?php endif; ?></h1>
 	    <ol class="breadcrumb">
 	        <li><a href="<?php echo e(route('home')); ?>"><i class="fa fa-dashboard"></i><?php if( Auth::User()->language == 1 ): ?> ড্যাসবোর্ড <?php else: ?> Dashboard <?php endif; ?></a></li>
-	        <li class=""><a href=""><?php if( Auth::User()->language == 1 ): ?> রো প্রোডাক্ট ক্রিয়েট <?php else: ?> Raw Product Create <?php endif; ?></a></li>
+	        <li class=""><a href=""><?php if( Auth::User()->language == 1 ): ?> প্রোডাক্ট ফরমুলেসন  <?php else: ?> Product Formulation <?php endif; ?></a></li>
 	     </ol>
     </section>
     <!-- Main content -->
@@ -23,7 +23,7 @@
 			<div class="col-md-12">
 				<div class="box box-solid">
 					<div class="box-header with-border">
-					<h3 class="box-title"><?php if( Auth::User()->language == 1 ): ?> রো প্রোডাক্ট ক্রিয়েট <?php else: ?> Raw Product Create <?php endif; ?></h3>
+					<h3 class="box-title"><?php if( Auth::User()->language == 1 ): ?> প্রোডাক্ট ফরমুলেসন  <?php else: ?> Product Formulation <?php endif; ?></h3>
 					</div>
 					<div class="box-body">
 					
@@ -83,7 +83,7 @@
 	                   		<tbody id="multiple_material">
 								<tr>
 									<td colspan="3"></td>
-									<td colspan="5" style="text-align: right"><strong>Well Product</strong></td>
+									<td colspan="5" style="text-align: right"><strong>Estimate Production </strong></td>
 									<td><input type="text" id="multiple_well" onkeyup="getTotalProduct()" class="form-control" value="0"></td>
 									<td></td>
 								</tr>
@@ -92,7 +92,7 @@
 								<tr>
 									<td colspan="5"></td>
 									<td colspan="4">
-										<label><strong>Select Expense</strong></label>
+										<label><strong>Select Expense(Packaging)</strong></label>
 										<select class="form-control select2 select2-hidden-accessible" name="expense_onchange" id="expense_onchange" onchange="expense_onchange()">
 											<option value="" selected="" disabled>Select Expense</option>
 											<?php $__currentLoopData = $expense; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $single): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -227,6 +227,15 @@
 					$('#product_cost' + set_id).val(parseFloat(packate_price).toFixed(2));
 				}
 			}
+			if(give_type === 'pcs'){
+				if(packate_type === 'pcs'){
+					var outputval = given_amount / packate_weight;
+					$('#maked' + set_id).val(parseFloat(outputval).toFixed(2));
+					// price
+					var packate_price = material_price * given_amount / stock_qty
+					$('#product_cost' + set_id).val(parseFloat(packate_price).toFixed(2));
+				}
+			}
 
 			$('#given_amount' + set_id).attr('disabled', 'disabled');
 
@@ -251,6 +260,18 @@
 			}
 			if(give_type === 'litre'){
 				if(packate_type === 'litre' || packate_type ==='mililitre'){
+					$('#packate_weight' + set_id).show();
+					$('#packate_weight' + set_id).val('');
+					$('#maked' + set_id).val('');
+				}else{
+					toastr.error('Please select appropriate type');
+					$('#packate_weight' + set_id).hide();
+					$('#product_cost' + set_id).val('');
+					$('#maked' + set_id).val('');
+				}
+			}
+			if(give_type === 'pcs'){
+				if(packate_type === 'pcs'){
 					$('#packate_weight' + set_id).show();
 					$('#packate_weight' + set_id).val('');
 					$('#maked' + set_id).val('');
@@ -392,7 +413,7 @@
                     if(error.responseJSON.errors.product_batch){
                         toastr.error(error.responseJSON.errors.product_batch[0]);
                     }else{
-                        toastr.error('Please Fillup All Options');
+                        toastr.error('Please Fillup All Options Carefully | Used minimum 0 value');
                     }
                 }
             });
@@ -459,6 +480,7 @@
 											<option value="kg">Kg</option>
 											<option value="mililitre">MiliLitre</option>
 											<option value="litre">Litre</option>
+											<option value="pcs">Pcs</option>
 										</select>
 									</td>
 									<td>

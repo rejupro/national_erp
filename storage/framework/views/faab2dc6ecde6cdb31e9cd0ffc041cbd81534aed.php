@@ -62,13 +62,13 @@
 					<h3 class="box-title"><?php if( Auth::User()->language == 1 ): ?> কার্ট লিস্ট <?php else: ?> Cart List <?php endif; ?></h3>
 					</div>
 					<div class="box-body">
-                        <label>Select Supplier</label>
+                        <label>Select Customers</label>
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon"><span class="fa fa-user-o"></span></span>    
                                 <select class="form-control select2 select2-hidden-accessible" name="supplier" id="supplier" tabindex="-1" aria-hidden="true" required>
                                     <option value="" selected="">-Select-</option> 
-                                    <?php $__currentLoopData = $supplier; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $single): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <?php $__currentLoopData = $customer; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $single): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <option value="<?php echo e($single->id); ?>"><?php echo e($single->name); ?></option>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </select>
@@ -221,13 +221,17 @@
                 },
                 url: "<?php echo e(route('rawproduct_salestore')); ?>",
                 success:function(response){
-                    allCartData();
-                    if(response){
-                        toastr.success(response.message);
+                    if(response.batch_error){
+                        toastr.error(response.batch_error);
                     }
-                    window.setTimeout(function () {
-                        window.location.href = "<?php echo e(route('raw_salecreate')); ?>";
-                    }, 2000);
+                    if(response.message){
+                        allCartData();
+                        toastr.success(response.message);
+                        window.setTimeout(function () {
+                            window.location.href = "<?php echo e(route('raw_salecreate')); ?>";
+                        }, 2000);
+                    }
+                    
                 },
                 error:function(error){
                     if(error.responseJSON.errors.supplier){
@@ -291,7 +295,7 @@
                                         allData +=    `</select>
                                         </td>
                                         <td><input type="text" class="form-control" id="stock_amount${key+1}" name="stock_amount[]" value="0" min="1" readonly></td>
-                                        <td><input type="text" class="form-control" name="price[]" id="price${key+1}" value="0" min="1" ></td>
+                                        <td><input type="text" class="form-control" name="price[]" id="price${key+1}" value="${value.product_price}" min="1" readonly></td>
                                         <td><input type="text" class="form-control quantity" id="quantity${key+1}" name="quantity[]" onkeyup="change_total(${key+1})" value="0" min="1" style="display: none" ></td>
                                         <td><input type="text" class="form-control product_price" id="product_price${key+1}" name="product_price[]" value="0" min="1" readonly></td>
                                         <td class="text-center"><a href="#" onclick="remove_from_cart(${value.product_id})" class="remove">
@@ -336,7 +340,8 @@
                 url: url,
                 success:function(response){
                     $('#stock_amount' + set_id).val(response.rest_amount);
-                    $('#price' + set_id).val(response.product_price);
+                    $('#quantity' + set_id).val('0');
+                    $('#product_price' + set_id).val('0');
                 }
             });
         }

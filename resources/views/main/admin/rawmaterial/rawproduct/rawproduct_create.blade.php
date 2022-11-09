@@ -228,6 +228,15 @@
 					$('#product_cost' + set_id).val(parseFloat(packate_price).toFixed(2));
 				}
 			}
+			if(give_type === 'pcs'){
+				if(packate_type === 'pcs'){
+					var outputval = given_amount / packate_weight;
+					$('#maked' + set_id).val(parseFloat(outputval).toFixed(2));
+					// price
+					var packate_price = material_price * given_amount / stock_qty
+					$('#product_cost' + set_id).val(parseFloat(packate_price).toFixed(2));
+				}
+			}
 
 			$('#given_amount' + set_id).attr('disabled', 'disabled');
 
@@ -252,6 +261,18 @@
 			}
 			if(give_type === 'litre'){
 				if(packate_type === 'litre' || packate_type ==='mililitre'){
+					$('#packate_weight' + set_id).show();
+					$('#packate_weight' + set_id).val('');
+					$('#maked' + set_id).val('');
+				}else{
+					toastr.error('Please select appropriate type');
+					$('#packate_weight' + set_id).hide();
+					$('#product_cost' + set_id).val('');
+					$('#maked' + set_id).val('');
+				}
+			}
+			if(give_type === 'pcs'){
+				if(packate_type === 'pcs'){
 					$('#packate_weight' + set_id).show();
 					$('#packate_weight' + set_id).val('');
 					$('#maked' + set_id).val('');
@@ -393,7 +414,7 @@
                     if(error.responseJSON.errors.product_batch){
                         toastr.error(error.responseJSON.errors.product_batch[0]);
                     }else{
-                        toastr.error('Please Fillup All Options');
+                        toastr.error('Please Fillup All Options Carefully | Used minimum 0 value');
                     }
                 }
             });
@@ -460,6 +481,7 @@
 											<option value="kg">Kg</option>
 											<option value="mililitre">MiliLitre</option>
 											<option value="litre">Litre</option>
+											<option value="pcs">Pcs</option>
 										</select>
 									</td>
 									<td>

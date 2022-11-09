@@ -81,9 +81,10 @@ class MaterialPurchaseController extends Controller
         $validated = $request->validate([
             'material_id' => 'required',
             'qty_type' => 'required',
-            'quantity' => 'required',
+            'quantity' => 'required|gt:0',
             'price' => 'required',
-            'supplier' => 'required'
+            'supplier' => 'required',
+            'grand_total' => 'required|numeric|gt:0'
         ]);
 
         

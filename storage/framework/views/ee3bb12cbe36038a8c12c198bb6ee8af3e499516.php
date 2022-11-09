@@ -199,15 +199,14 @@
                 error:function(error){
                     if(error.responseJSON.errors.qty_type){
                         toastr.error(error.responseJSON.errors.qty_type[0]);
-                    }
-                    if(error.responseJSON.errors.quantity){
+                    }else if(error.responseJSON.errors.quantity){
                         toastr.error(error.responseJSON.errors.quantity[0]);
-                    }
-                    if(error.responseJSON.errors.price){
+                    }else if(error.responseJSON.errors.price){
                         toastr.error(error.responseJSON.errors.price[0]);
-                    }
-                    if(error.responseJSON.errors.supplier){
+                    }else if(error.responseJSON.errors.supplier){
                         toastr.error(error.responseJSON.errors.supplier[0]);
+                    }else{
+                        toastr.error('Please Fillup all options carefully & grand total should be minimum 1');
                     }
                     
                 }
@@ -260,6 +259,7 @@
                                                 <option value="" selected="">Select Type</option>
                                                 <option value="ton">Ton</option>
                                                 <option value="litre">Litre</option>
+                                                <option value="pcs">Pcs</option>
                                             </select>
                                         </td>
                                         <td><input type="number" class="form-control" id="quantity" value="${value.quantity}" min="1"></td>

@@ -1,14 +1,14 @@
 <?php $__env->startSection("content"); ?>
 <?php
- $mhead='raw_material';
+ $mhead='product';
  $phead='rawproduct_stock';
 ?>
 
     <section class="content-header">
-	    <h1><?php if( Auth::User()->language == 1 ): ?> ম্যাটেরিয়াল প্রোডাক্ট স্টক  <?php else: ?> Material Product Stock <?php endif; ?></h1>
+	    <h1><?php if( Auth::User()->language == 1 ): ?> প্রোডাক্ট স্টক  <?php else: ?>  Product Stock <?php endif; ?></h1>
 	    <ol class="breadcrumb">
 	        <li><a href="<?php echo e(route('home')); ?>"><i class="fa fa-dashboard"></i><?php if( Auth::User()->language == 1 ): ?> ড্যাসবোর্ড <?php else: ?> Dashboard <?php endif; ?></a></li>
-	        <li class=""><a href=""><?php if( Auth::User()->language == 1 ): ?> ম্যাটেরিয়াল প্রোডাক্ট স্টক  <?php else: ?> Material Product Stock <?php endif; ?></a></li>
+	        <li class=""><a href=""><?php if( Auth::User()->language == 1 ): ?>  প্রোডাক্ট স্টক  <?php else: ?>  Product Stock <?php endif; ?></a></li>
 	     </ol>
     </section>
     <!-- Main content -->
@@ -17,7 +17,7 @@
 			<div class="col-md-12">
 				<div class="box box-solid">
 					<div class="box-header with-border">
-					<h3 class="box-title"><?php if( Auth::User()->language == 1 ): ?> ম্যাটেরিয়াল প্রোডাক্ট স্টক  <?php else: ?> Material Product Stock <?php endif; ?></h3>
+					<h3 class="box-title"><?php if( Auth::User()->language == 1 ): ?>  প্রোডাক্ট স্টক  <?php else: ?> Product Stock <?php endif; ?></h3>
 					</div>
 					<div class="box-body">
 					

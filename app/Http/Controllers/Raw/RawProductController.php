@@ -156,10 +156,14 @@ class RawProductController extends Controller
             'product' => 'required',
 
             'give_type' => 'required',
-            'total_readyproduct' => 'required',
-            'maked.*' => 'required|min:1',
-            'expense_qty.*' => 'required|min:1',
-            'expense_total.*' => 'required',
+            'other_expense' => 'required|numeric',
+            'deduction_expense' => 'required|numeric',
+            'wasted_product' => 'required|numeric',
+            'extra_product' => 'required|numeric',
+            'total_readyproduct' => 'required|numeric',
+            'maked.*' => 'required|numeric|gt:0',
+            'expense_qty.*' => 'required|numeric|gt:0',
+            'expense_total.*' => 'required|numeric|gt:0',
         ]);
         // Insert In Stock
         $stockinsert = RawProductStock::insert([

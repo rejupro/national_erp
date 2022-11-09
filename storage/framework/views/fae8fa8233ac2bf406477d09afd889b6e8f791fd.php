@@ -5,10 +5,10 @@
 ?>
 
     <section class="content-header">
-	    <h1><?php if( Auth::User()->language == 1 ): ?> সব সেল <?php else: ?> All Sale <?php endif; ?></h1>
+	    <h1><?php if( Auth::User()->language == 1 ): ?> সব সেল <?php else: ?> All Sell <?php endif; ?></h1>
 	    <ol class="breadcrumb">
 	        <li><a href="<?php echo e(route('home')); ?>"><i class="fa fa-dashboard"></i><?php if( Auth::User()->language == 1 ): ?> ড্যাসবোর্ড <?php else: ?> Dashboard <?php endif; ?></a></li>
-	        <li class=""><a href=""><?php if( Auth::User()->language == 1 ): ?> সব সেল <?php else: ?> All Sale <?php endif; ?></a></li>
+	        <li class=""><a href=""><?php if( Auth::User()->language == 1 ): ?> সব সেল <?php else: ?> All Sell <?php endif; ?></a></li>
 	     </ol>
     </section>
     <!-- Main content -->
@@ -17,7 +17,7 @@
 			<div class="col-md-12">
 				<div class="box box-solid">
 					<div class="box-header with-border">
-					<h3 class="box-title"><?php if( Auth::User()->language == 1 ): ?> সব সেল <?php else: ?> All Sale <?php endif; ?></h3>
+					<h3 class="box-title"><?php if( Auth::User()->language == 1 ): ?> সব সেল <?php else: ?> All Sell <?php endif; ?></h3>
 					</div>
 					<div class="box-body">
 					
@@ -36,7 +36,7 @@
 	                         <tr>
 	                           <th style="width:40px;"><?php if( Auth::User()->language == 1 ): ?> সিরিয়াল <?php else: ?> SN <?php endif; ?></th>
 	                           <th><?php if( Auth::User()->language == 1 ): ?> ইনভয়েস নাম্বার <?php else: ?> Invoice Number <?php endif; ?></th>
-	                           <th><?php if( Auth::User()->language == 1 ): ?> সাপ্লায়ার <?php else: ?> Supplier <?php endif; ?></th>
+	                           <th><?php if( Auth::User()->language == 1 ): ?> কাস্টোমার <?php else: ?> Customer <?php endif; ?></th>
 	                           <th><?php if( Auth::User()->language == 1 ): ?> তারিখ <?php else: ?> Date <?php endif; ?></th>
 	                           <th><?php if( Auth::User()->language == 1 ): ?> গ্রান্ড টোটাল <?php else: ?> Grand Total <?php endif; ?></th>
 							   <th><?php if( Auth::User()->language == 1 ): ?> স্ট্যাটাস <?php else: ?> Status <?php endif; ?></th>
@@ -66,7 +66,7 @@
 	                   <div class="col-md-12 table-responsive">
 	                      <div class="col-md-8"></div>
 	                      <div class="col-md-4 text-right" >
-	                         <a href="<?php echo e(route('raw_salecreate')); ?>" class="btn btn-flat bg-purple"><?php if( Auth::User()->language == 1 ): ?> এড স্টক <?php else: ?> Add Stock <?php endif; ?></a>
+	                         <a href="<?php echo e(route('raw_salecreate')); ?>" class="btn btn-flat bg-purple"><?php if( Auth::User()->language == 1 ): ?> এড সেল <?php else: ?> Add Sell <?php endif; ?></a>
 	                      </div>
 	                   </div>
 	                </div>

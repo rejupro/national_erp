@@ -31,26 +31,23 @@ class RawSalesController extends Controller
         $userid = Auth::user()->id;
         $stockCheck = RawProductStock::where('product_id', $id)->whereNotIn('stock_status', [1,5])->get()->count();
         $dataExist = RawProductCart::where('user_id', $userid)->where('product_id', $id)->get()->count();
+        $product_price = Product::where('id', $id)->first()->price;
         if($stockCheck > 0){
-            if($dataExist > 0){
+
+            $insert = RawProductCart::insert([
+                'user_id' => $userid,
+                'product_id' => $id,
+                'product_price' => $product_price,
+            ]);
+    
+            if($insert){
                 return response()->json([
-                    'message_error' => 'This Product Already In Cart',
+                    'message' => 'Cart Added Successfully',
                 ]);
             }else{
-                $insert = RawProductCart::insert([
-                    'user_id' => $userid,
-                    'product_id' => $id,
+                return response()->json([
+                    'message' => 'Not Added',
                 ]);
-        
-                if($insert){
-                    return response()->json([
-                        'message' => 'Cart Added Successfully',
-                    ]);
-                }else{
-                    return response()->json([
-                        'message' => 'Not Added',
-                    ]);
-                }
             }
         }else{
             return response()->json([
@@ -70,10 +67,11 @@ class RawSalesController extends Controller
 
         $datas = [];
         foreach($carts as $values){
-            $batch = RawProductStock::where('product_id', $values->product_id)->get();
+            $batch = RawProductStock::where('product_id', $values->product_id)->whereNotIn('stock_status', [1,5])->get();
             $item = [
                 'product_id' => $values->product_id,
                 'product_name' => $values->product_name,
+                'product_price' => $values->product_price,
                 'batch' => $batch
             ];
             array_push($datas, $item);
@@ -121,67 +119,77 @@ class RawSalesController extends Controller
             'product_price.*' => 'required|numeric|gt:0',
         ]);
 
-        $ldate = date('d-m-Y');
-        $count = RawProductSale::get()->count();
-        if($count > 0){
-            $increase  = $count + 1;
-            $invoice = 'pro-invoice-' . $increase;
-        }else{
-            $invoice = 'pro-invoice-1';
-        }
-        $insertSale = RawProductSale::insert([
-            'invoice_no' => $invoice,
-            'supplier_id' => $request->supplier,
-            'total_price' => $request->total_price,
-            'dis_percen' => $request->dis_percen,
-            'dis_percen_amount' => $request->dis_percen_amount,
-            'direct_dis' => $request->direct_dis,
-            'vat_percen' => $request->vat_percen,
-            'vat_percen_amount' => $request->vat_percen_amount,
-            'tax_percen' => $request->tax_percen,
-            'tax_percen_amount' => $request->tax_percen_amount,
-            'others' => $request->others,
-            'frac_dis' => $request->frac_dis,
-            'grand_total' => $request->grand_total,
-            'date' => $ldate
-        ]);
+        $batch_count = max(array_count_values($request->product_batch));
 
-        $userid = Auth::user()->id;
-        $cartCount = RawProductCart::where('user_id', $userid)->get()->count();
-        $i = 0;
-
-        for ($i; $i < $cartCount; $i++):
-            $array[] = [
-                'invoice_no' => $invoice,
-                'product_id' => $request->product_id[$i],
-                'product_batch' => $request->product_batch[$i],
-                'price' => $request->price[$i],
-                'quantity' => $request->quantity[$i],
-                'product_price' => $request->product_price[$i],
-            ];
-
-            $RawProductStock = RawProductStock::where('product_batch', $request->product_batch[$i])->whereNotIn('stock_status', [1,5])->first();
-            $update_quantity = RawProductStock::where('product_batch', $request->product_batch[$i])->whereNotIn('stock_status', [1,5])->first()->sell_product + $request->quantity[$i];
-            DB::table('raw_product_stocks')->where('product_batch', $request->product_batch[$i])->whereNotIn('stock_status', [1,5])->update([
-                'sell_product' => $update_quantity
+        if($batch_count > 1){
+            return response()->json([
+                'batch_error' => 'Why You selected same batch',
             ]);
-            if($RawProductStock->total_ready_product == $RawProductStock->sell_product + $request->quantity[$i] || $RawProductStock->total_ready_product < $RawProductStock->sell_product + $request->quantity[$i]){
+        }else{
+            $ldate = date('d-m-Y');
+            $count = RawProductSale::get()->count();
+            if($count > 0){
+                $increase  = $count + 1;
+                $invoice = 'pro-invoice-' . $increase;
+            }else{
+                $invoice = 'pro-invoice-1';
+            }
+            $insertSale = RawProductSale::insert([
+                'invoice_no' => $invoice,
+                'supplier_id' => $request->supplier,
+                'total_price' => $request->total_price,
+                'dis_percen' => $request->dis_percen,
+                'dis_percen_amount' => $request->dis_percen_amount,
+                'direct_dis' => $request->direct_dis,
+                'vat_percen' => $request->vat_percen,
+                'vat_percen_amount' => $request->vat_percen_amount,
+                'tax_percen' => $request->tax_percen,
+                'tax_percen_amount' => $request->tax_percen_amount,
+                'others' => $request->others,
+                'frac_dis' => $request->frac_dis,
+                'grand_total' => $request->grand_total,
+                'date' => $ldate
+            ]);
+
+            $userid = Auth::user()->id;
+            $cartCount = RawProductCart::where('user_id', $userid)->get()->count();
+            $i = 0;
+
+            for ($i; $i < $cartCount; $i++):
+                $array[] = [
+                    'invoice_no' => $invoice,
+                    'product_id' => $request->product_id[$i],
+                    'product_batch' => $request->product_batch[$i],
+                    'price' => $request->price[$i],
+                    'quantity' => $request->quantity[$i],
+                    'product_price' => $request->product_price[$i],
+                ];
+
+                $RawProductStock = RawProductStock::where('product_batch', $request->product_batch[$i])->whereNotIn('stock_status', [1,5])->first();
+                $update_quantity = RawProductStock::where('product_batch', $request->product_batch[$i])->whereNotIn('stock_status', [1,5])->first()->sell_product + $request->quantity[$i];
                 DB::table('raw_product_stocks')->where('product_batch', $request->product_batch[$i])->whereNotIn('stock_status', [1,5])->update([
-                    'stock_status' => 1
+                    'sell_product' => $update_quantity
+                ]);
+                if($RawProductStock->total_ready_product == $RawProductStock->sell_product + $request->quantity[$i] || $RawProductStock->total_ready_product < $RawProductStock->sell_product + $request->quantity[$i]){
+                    DB::table('raw_product_stocks')->where('product_batch', $request->product_batch[$i])->whereNotIn('stock_status', [1,5])->update([
+                        'stock_status' => 1
+                    ]);
+                }
+            endfor;
+
+            $stockdet = RawProductSaleDet::insert($array);
+            if($stockdet){
+                $delete = RawProductCart::where('user_id', $userid)->delete();
+            }
+
+            if($insertSale && $stockdet){
+                return response()->json([
+                    'message' => 'Sale Added Successfully',
                 ]);
             }
-        endfor;
-
-        $stockdet = RawProductSaleDet::insert($array);
-        if($stockdet){
-            $delete = RawProductCart::where('user_id', $userid)->delete();
         }
 
-        if($insertSale && $stockdet){
-            return response()->json([
-                'message' => 'Sale Added Successfully',
-            ]);
-        }
+        
         
     }
 
